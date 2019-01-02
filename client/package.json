@@ -1,11 +1,13 @@
 {
-  "name": "mern",
+  "name": "mernproject3",
   "version": "0.1.0",
   "private": true,
   "proxy": "http://localhost:3001/",
   "dependencies": {
+    "moment": "^2.22.1",
     "react": "^16.0.0",
     "react-dom": "^16.0.0",
+    "react-big-calendar": "^0.20.1",
     "react-scripts": "1.0.14",
     "react-router-dom": "^4.1.2",
     "axios": "^0.16.2"

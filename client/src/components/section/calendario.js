@@ -1,12 +1,11 @@
 import React from "react";
 import 'react-big-calendar/lib/css/react-big-calendar.css';
-import BigCalendar from 'react-big-calendar';
 
 import "./calendario.css";
 
-const Section = ({props}) => {
-  return <span> <BigCalendar {...props} />  </span>
-}
+// const Section = () => {
+//    <Calendar />  
+// }
 
 
 // export function Section ({props}){

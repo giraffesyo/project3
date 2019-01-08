@@ -1,0 +1,38 @@
+{
+  "name": "project3",
+  "version": "0.1.0",
+  "description": "Administrator Sistem for a enviromental laboratory",
+  "private": true,
+  "main": "server.js",
+  "dependencies": {
+    "axios": "^0.16.2",
+    "express": "^4.16.3",
+    "moment": "^2.23.0",
+    "mongoose": "^5.0.17",
+    "react": "^16.7.0",
+    "react-big-calendar": "^0.20.2",
+    "react-dom": "^16.7.0",
+    "react-scripts": "2.1.2"
+  },
+  "author": "Jessica, Dulcinea, Patricia, Horacio",
+  "license": "ISC",
+  "devDependencies": {
+    "concurrently": "^4.1.0",
+    "nodemon": "^1.18.7"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject"
+  },
+  "eslintConfig": {
+    "extends": "react-app"
+  },
+  "browserslist": [
+    ">0.2%",
+    "not dead",
+    "not ie <= 11",
+    "not op_mini all"
+  ]
+}

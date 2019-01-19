@@ -2,10 +2,38 @@ import React, { Component } from "react"
 import Helmet from "react-helmet"
 import DayPicker, { DateUtils } from "react-day-picker"
 import "react-day-picker/lib/style.css"
+import API from "../../utils/API"
 
 //import API from "../utils/API"
 
 class Addorden extends Component {
+  state = {
+    clave: "",
+    rama: "",
+    tipodeestudio: "",
+    signatario: [],
+    equipo: [],
+    inicio: "",
+    fin: "",
+    preciosubtotal: "",
+    status: "",
+    comentarios: ""
+  }
+  handleFormSubmit = event => {
+    event.preventDefault()
+    API.saveOrden({
+      clave: this.state.clave,
+      rama: this.state.rama,
+      tipodeestudio: this.state.tipodeestudio,
+      inicio: this.state.inicio,
+      fin: this.state.fin,
+      comentarios: this.state.comentarios,
+      status: this.state.status,
+      preciosubtotal: this.state.preciosubtotal
+    }).catch(err => console.log(err))
+  }
+
+  //For Calendar
   static defaultProps = {
     numberOfMonths: 2
   }
@@ -35,29 +63,26 @@ class Addorden extends Component {
     return (
       <div className="container">
         <form>
-          <div class="form-row">
-            <div class="form-group col-md-6">
-              <label for="inputEmail4">Id</label>
+          <div className="form-row">
+            <div className="form-group col-md-4">
+              <label>Id</label>
               <input
-                type="email"
-                class="form-control"
-                id="inputEmail4"
+                className="form-control"
+                id="inputId"
                 placeholder="200-FF-19-1"
               />
             </div>
-            <div class="form-group col-md-6">
-              <label for="exampleFormControlSelect1">Rama</label>
-              <select class="form-control" id="exampleFormControlSelect1">
+            <div className="form-group col-md-4">
+              <label>Rama</label>
+              <select className="form-control" id="exampleFormControlSelect1">
                 <option>Fuentes Fijas</option>
                 <option>Aguas Residuales</option>
                 <option>Ambiente Laboral</option>
               </select>
             </div>
-          </div>
-          <div className="form-row">
-            <div class="form-group col">
-              <label for="exampleFormControlSelect1">Tipo de Estudio</label>
-              <select class="form-control" id="exampleFormControlSelect1">
+            <div className="form-group col-md-4">
+              <label>Tipo de Estudio</label>
+              <select className="form-control" id="exampleFormControlSelect1">
                 <option>Estudio de Ruido en los centros de trabajo</option>
                 <option>
                   Estudio de electricidad estatica en los centros de trabajo
@@ -68,49 +93,72 @@ class Addorden extends Component {
                 </option>
               </select>
             </div>
-            <div class="form-group col">
-              <label for="exampleFormControlSelect1">Equipo</label>
-              <select class="form-control" id="exampleFormControlSelect1">
-                <option>Equipo 1</option>
-                <option>Equipo 2</option>
-                <option>Equipo 3</option>
-              </select>
+          </div>
+          <div className="form-row">
+            <h5>Signatario</h5>
+            <hr />
+            <div className="form-check form-check-inline">
+              <input
+                className="form-check-input"
+                type="checkbox"
+                id="inlineCheckbox1"
+                value="option1"
+              />
+              <label className="form-check-label">Alfredo Yáñez Báez</label>
+            </div>
+            <div className="form-check form-check-inline">
+              <input
+                className="form-check-input"
+                type="checkbox"
+                id="inlineCheckbox2"
+                value="option2"
+              />
+              <label className="form-check-label">Rocio Juárez Moran</label>
+            </div>
+            <div className="form-check form-check-inline">
+              <input
+                className="form-check-input"
+                type="checkbox"
+                id="inlineCheckbox3"
+                value="option3"
+                disabled
+              />
+              <label className="form-check-label">Kyouchi Pochi</label>
             </div>
           </div>
-          <div class="form-check form-check-inline">
-            <input
-              class="form-check-input"
-              type="checkbox"
-              id="inlineCheckbox1"
-              value="option1"
-            />
-            <label class="form-check-label" for="inlineCheckbox1">
-              Alfredo Yáñez Báez
-            </label>
+          <div className="form-row">
+            <h5>Equipo</h5>
+            <hr />
+            <div className="form-check form-check-inline">
+              <input
+                className="form-check-input"
+                type="checkbox"
+                id="inlineCheckbox1"
+                value="option1"
+              />
+              <label className="form-check-label">Equipo 1</label>
+            </div>
+            <div className="form-check form-check-inline">
+              <input
+                className="form-check-input"
+                type="checkbox"
+                id="inlineCheckbox2"
+                value="option2"
+              />
+              <label className="form-check-label">Equipo 2</label>
+            </div>
+            <div className="form-check form-check-inline">
+              <input
+                className="form-check-input"
+                type="checkbox"
+                id="inlineCheckbox3"
+                value="option3"
+                disabled
+              />
+              <label className="form-check-label">Equipo 3</label>
+            </div>
           </div>
-          <div class="form-check form-check-inline">
-            <input
-              class="form-check-input"
-              type="checkbox"
-              id="inlineCheckbox2"
-              value="option2"
-            />
-            <label class="form-check-label" for="inlineCheckbox2">
-              Rocio Juárez Moran
-            </label>
-          </div>
-          <div class="form-check form-check-inline">
-            <input
-              class="form-check-input"
-              type="checkbox"
-              id="inlineCheckbox3"
-              value="option3"
-              disabled
-            />
-            <label class="form-check-label" for="inlineCheckbox3">
-              Kyouchi Pochi
-            </label>
-          </div>
+
           <p>
             {!from && !to && "Por favor selecciona el día de inicio"}
             {from && !to && "Please selecciona el día de termino"}
@@ -153,92 +201,81 @@ class Addorden extends Component {
   }
 `}</style>
           </Helmet>
-          <div class="form-group">
-            <label for="exampleFormControlInput1">Precio</label>
+          <div className="form-group">
+            <label>Precio</label>
             <input
-              type="email"
-              class="form-control"
-              id="exampleFormControlInput1"
+              className="form-control"
+              id="inputPrecio"
               placeholder="2500"
             />
           </div>
           <h2>Status</h2>
 
-          <div class="form-check form-check-inline">
+          <div className="form-check form-check-inline">
             <input
-              class="form-check-input"
+              className="form-check-input"
               type="checkbox"
               id="inlineCheckbox1"
               value="option1"
             />
-            <label class="form-check-label" for="inlineCheckbox1">
-              En progreso
-            </label>
+            <label className="form-check-label">En progreso</label>
           </div>
-          <div class="form-check form-check-inline">
+          <div className="form-check form-check-inline">
             <input
-              class="form-check-input"
+              className="form-check-input"
               type="checkbox"
               id="inlineCheckbox2"
               value="option2"
             />
-            <label class="form-check-label" for="inlineCheckbox2">
-              Pago en anticipo
-            </label>
+            <label className="form-check-label">Pago en anticipo</label>
           </div>
-          <div class="form-check form-check-inline">
+          <div className="form-check form-check-inline">
             <input
-              class="form-check-input"
+              className="form-check-input"
               type="checkbox"
               id="inlineCheckbox2"
               value="option2"
             />
-            <label class="form-check-label" for="inlineCheckbox2">
-              Ya fueron a campo
-            </label>
+            <label className="form-check-label">Ya fueron a campo</label>
           </div>
-          <div class="form-check form-check-inline">
+          <div className="form-check form-check-inline">
             <input
-              class="form-check-input"
+              className="form-check-input"
               type="checkbox"
               id="inlineCheckbox2"
               value="option2"
             />
-            <label class="form-check-label" for="inlineCheckbox2">
-              Concluido
-            </label>
+            <label className="form-check-label">Concluido</label>
           </div>
-          <div class="form-check form-check-inline">
+          <div className="form-check form-check-inline">
             <input
-              class="form-check-input"
+              className="form-check-input"
               type="checkbox"
               id="inlineCheckbox2"
               value="option2"
             />
-            <label class="form-check-label" for="inlineCheckbox2">
-              Pagado
-            </label>
+            <label className="form-check-label">Pagado</label>
           </div>
-          <div class="form-check form-check-inline">
+          <div className="form-check form-check-inline">
             <input
-              class="form-check-input"
+              className="form-check-input"
               type="checkbox"
               id="inlineCheckbox2"
               value="option2"
             />
-            <label class="form-check-label" for="inlineCheckbox2">
-              <div class="badge badge-danger text-wrap">Cancelado</div>
+            <label className="form-check-label">
+              <div className="badge badge-danger text-wrap">Cancelado</div>
             </label>
           </div>
-          <div class="form-group">
-            <label for="exampleFormControlTextarea1">Comentarios</label>
+          <div className="form-group">
+            <label>Comentarios</label>
             <textarea
-              class="form-control"
+              className="form-control"
               id="exampleFormControlTextarea1"
               rows="3"
             />
           </div>
-          <button type="submit" class="btn btn-primary">
+          <button type="submit" className="btn btn-primary">
             Crear Nuevo Estudio
           </button>
         </form>

@@ -4,6 +4,6 @@ module.exports = {
   create: function(req, res) {
     db.Ordenes.create(req.body)
       .then(dbModel => res.json(dbModel))
-      .catch(err => res.status(422))
+      .catch(err => res.status(422).json(err))
   }
 }

@@ -1,7 +1,7 @@
 const router = require("express").Router()
-const routes = require("./apiroutes")
+const ordenRoutes = require("./ordenes")
 
 // Book routes
-router.use("/apiroutes", routes)
+router.use("/ordenes", ordenRoutes)
 
 module.exports = router

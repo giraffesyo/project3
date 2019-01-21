@@ -5,10 +5,10 @@ const Schema = mongoose.Schema
 const OrdenesSchema = new Schema({
   clave: { type: String, required: true, unique: true }, //Este es el id que pusiste en el excel, lo pongo como "clave" para que no se confunda con el id que genera automáticamente mongo, el unique:true evita que se genere contenido duplicado
   rama: { type: String, required: true },
-  tipodeestudio: { type: Number, required: true },
-  metodos: { type: Number, required: true },
-  signatario: { type: String, required: true },
-  equipo: { type: String, required: true },
+  tipodeestudio: { type: String, required: true },
+  metodos: { type: String },
+  signatario: { type: String },
+  equipo: { type: String },
   inicio: { type: Date, default: Date.now },
   fin: { type: Date, default: Date.now },
   comentarios: { type: String },

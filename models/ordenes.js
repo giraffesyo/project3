@@ -7,7 +7,6 @@ const OrdenesSchema = new Schema({
   rama: { type: String, required: true },
   tipodeestudio:{ type: Number, required: true },
   metodos:{ type: Number, required: true },
-  cantidad: { type: Number},
   signatario: { type: String, required: true }, 
   equipo: { type: String, required: true },
   inicio: { type: Date, default: Date.now },

@@ -34,7 +34,7 @@ const ramasSeed = [
 const tiposdeestudioSeed = [
   {
     clave: "200",
-    nombretipodeestudio: "NOM-043-SEMARNAT-1993",
+    nombretipodeestudio: "Estudio Isocinético de partículas. NOM-043-SEMARNAT-1993",
     descripcion:"Estudio isocinético de partículas",
     nombrerama:"Fuentes Fijas",
     metodos:[

@@ -1,3 +1,11 @@
 .ReactModal__Overlay {
     z-index: 9999999;
 }
+
+.limetodos{
+    color:red;
+}
+
+.limetodosselect{
+    color:blue;
+}

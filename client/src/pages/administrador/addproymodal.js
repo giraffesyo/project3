@@ -1,14 +1,17 @@
 import React, { Component } from "react"
+import { Redirect } from "react-router-dom"
 import Helmet from "react-helmet"
 import DayPicker, { DateUtils } from "react-day-picker"
 import "react-day-picker/lib/style.css"
 import API from "../../utils/API"
+import { withAlert } from "react-alert"
 
 class Addproyect extends Component {
   static defaultProps = {
     numberOfMonths: 2
   }
   state = {
+    success: false,
     clave: "",
     nombreempresa: "",
     direccion: "",
@@ -16,7 +19,6 @@ class Addproyect extends Component {
     fin: "",
     preciototal: "",
     cantidad: ""
-    //ordenes: ""
   }
   handleChange = event => {
     const { name, value } = event.target
@@ -28,13 +30,16 @@ class Addproyect extends Component {
       clave: this.state.clave,
       nombreempresa: this.state.nombreempresa,
       direccion: this.state.direccion,
-      inicio: this.state.inicio,
-      fin: this.state.fin,
+      inicio: this.state.from,
+      fin: this.state.to,
       preciototal: this.state.preciototal,
       cantidad: this.state.cantidad
-      //ordenes: this.state.ordenes
-    }).catch(err => console.log(err))
+    })
+      .then(this.props.alert.success("Estudio añadido exitosamente"))
+      .then(this.setState({ success: true }))
+      .catch(err => console.log(err))
   }
+
   constructor(props) {
     super(props)
     this.handleDayClick = this.handleDayClick.bind(this)
@@ -56,10 +61,11 @@ class Addproyect extends Component {
   }
 
   render() {
-    const { from, to } = this.state
+    const { from, to, success } = this.state
     const modifiers = { start: from, end: to }
     return (
       <div className="container">
+        {success && <Redirect to="/addorder" />}
         <div className="jumbotron jumbotron-fluid">
           <div className="container">
             <h1 className="display-4">Añadir Proyecto</h1>
@@ -151,7 +157,7 @@ class Addproyect extends Component {
               />
             </div>
             <div className="form-group col-md-4">
-              <label>Cantidad</label>
+              <label>Cantidad de estudios</label>
               <input
                 onChange={this.handleChange}
                 className="form-control"
@@ -160,21 +166,7 @@ class Addproyect extends Component {
               />
             </div>
           </div>
-          <div className="form-row">
-            <div className="form-group col-md-3">
-              <label>Estudio</label>
-              <input
-                onChange={this.handleChange}
-                className="form-control"
-                name="ordenes"
-                placeholder="750-FF-19-1"
-              />
-            </div>
-          </div>
-          <button type="button" className="btn btn-primary ">
-            Añadir Estudio
-          </button>
-          <hr />
+
           <button
             onClick={this.handleFormSubmit}
             type="submit"
@@ -187,4 +179,4 @@ class Addproyect extends Component {
     )
   }
 }
-export default Addproyect
+export default withAlert(Addproyect)

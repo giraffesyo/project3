@@ -9,13 +9,6 @@ class VistaAdministrador extends Component {
         <br />
         <div className="row">
           <div className="col">
-            <Link to="/addorder">
-              <button className="btn btn-success btn-lg active">
-                Agregar Estudio
-              </button>
-            </Link>
-          </div>
-          <div className="col">
             <button className="btn btn-primary btn-lg active">
               Consultar Estudio
             </button>

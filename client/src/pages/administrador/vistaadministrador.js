@@ -1,11 +1,15 @@
 import React, { Component } from "react"
 import Section from "../../components/section"
+import Engrane from "../../components/footer/engrane"
 import { Link } from "react-router-dom"
+
+
 class VistaAdministrador extends Component {
   render() {
     return (
       <div className="container">
         <Section />
+        <Engrane/>
         <br />
         <div className="row">
           <div className="col">

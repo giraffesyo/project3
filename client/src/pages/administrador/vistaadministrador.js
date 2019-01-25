@@ -25,6 +25,13 @@ class VistaAdministrador extends Component {
               Cancelar Estudio
             </button>
           </div>
+          <div className="col">
+            <Link to="/addproyect">
+              <button className="btn btn-success btn-lg active">
+                Agregar Proyecto
+              </button>
+            </Link>
+          </div>
         </div>
         <br />
         <div className="row">

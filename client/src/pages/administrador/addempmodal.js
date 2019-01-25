@@ -38,6 +38,14 @@ class Addorden extends Component {
   render() {
     return (
       <div className="container">
+      <div className="jumbotron jumbotron-fluid">
+          <div className="container">
+            <h1 className="display-4">Añadir Estudio</h1>
+            <p className="lead">
+              Añade un proyecto nuevo y después sus estudios correspondientes
+            </p>
+          </div>
+        </div>
         <form>
           <div className="form-row">
             <div className="form-group col-md-4">

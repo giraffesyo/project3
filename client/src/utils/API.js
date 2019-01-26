@@ -8,6 +8,7 @@ export default {
     )
   },
   saveProyect: function(proyectData) {
+    console.log(proyectData)
     return axios.post("/api/proyectos/add", proyectData)
   }
 }

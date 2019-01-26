@@ -34,8 +34,8 @@ class Addproyect extends Component {
       clave: this.state.clave,
       nombreempresa: this.state.nombreempresa,
       direccion: this.state.direccion,
-      inicio: this.state.from,
-      fin: this.state.to,
+      inicio: this.state.from.toLocaleDateString(),
+     fin: this.state.to.toLocaleDateString(),
       preciototal: this.state.preciototal,
       cantidad: this.state.cantidad
     })

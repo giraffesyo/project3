@@ -49,10 +49,26 @@ const ordenSeed = [
     equipo: ["Equipo3", "Equipo4"],
     status: "Payed",
     preciosubtotal: "8000"
+  },
+  {
+    clave: "2-AR-19-2",
+    rama: "AR",
+    tipodeestudio: "433",
+    start: "Fri Jan 12 2019",
+    end: "Fri Jan 12 2019",
+    metodos: [
+      "Estudio nuevo"
+    ],
+    signatario: ["AMH", "RLJM"],
+    equipo: ["Equipo3", "Equipo4"],
+    status: "Payed",
+    preciosubtotal: "500"
   }
 ]
 db.Proyectos.remove({})
+db.Ordenes.remove({})
   .then(() => db.Proyectos.collection.insertMany(proyectSeed))
+  .then(() => db.Ordenes.collection.insertMany(ordenSeed))
   .then(data => {
     console.log(data.result.n + " records inserted!")
     process.exit(0)

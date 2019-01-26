@@ -2,7 +2,7 @@ const mongoose = require("mongoose")
 const Schema = mongoose.Schema
 
 const ProyectosSchema = new Schema({
-  claveP: { type: Number, required: true, unique: true }, //Este es el id que pusiste en el excel, lo pongo como "clave" para que no se confunda con el id que genera automáticamente mongo, el unique:true evita que se genere contenido duplicado
+  clave: { type: Number, required: true }, //Este es el id que pusiste en el excel, lo pongo como "clave" para que no se confunda con el id que genera automáticamente mongo, el unique:true evita que se genere contenido duplicado
   nombreempresa: { type: String, required: true },
   direccion: { type: String },
   inicio: { type: Date, default: Date.now },

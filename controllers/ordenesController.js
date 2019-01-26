@@ -12,5 +12,12 @@ module.exports = {
         )
       })
       .catch(err => res.status(422).json(err))
-  }
+  },
+  //DULCINEA AGREGÓ:
+  findAllOrdenes: function(req, res) { 
+    db.Ordenes
+      .find(req.query)
+      .then(dbModel => res.json(dbModel))
+      .catch(err => res.status(422).json(err));
+  },
 }

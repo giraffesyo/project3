@@ -10,7 +10,7 @@ const proyectSeed = [
       "Calz Mexico Xochimilco 43, Col. San Lorenzo Huipulco, Tlalpan, C.P 14370",
     inicio: "Wed Jan 09 2019",
     fin: "Sat Jan 12 2019",
-    preciototal: "8000",
+    preciototal: "10000",
     cantidad: "3",
     ordenes: {
       clave: "1-FF-19-1",
@@ -37,9 +37,9 @@ const proyectSeed = [
 ]
 const ordenSeed = [
   {
-    clave: "2-AR-19-1",
-    rama: "AR",
-    tipodeestudio: "400",
+    clave: "1-FF-19-1",
+    rama: "FF",
+    tipodeestudio: "206",
     start: "Fri Jan 11 2019",
     end: "Fri Jan 11 2019",
     metodos: [
@@ -51,19 +51,23 @@ const ordenSeed = [
     preciosubtotal: "8000"
   },
   {
-    clave: "2-AR-19-2",
-    rama: "AR",
-    tipodeestudio: "433",
-    start: "Fri Jan 12 2019",
-    end: "Fri Jan 12 2019",
+    clave: "1-FF-19-2",
+    rama: "FF",
+    tipodeestudio: "206",
+    start: "Fri Jan 13 2019",
+    end: "Fri Jan 13 2019",
     metodos: [
-      "Estudio nuevo"
+      "Estudio de isopartículas"
     ],
-    signatario: ["AMH", "RLJM"],
-    equipo: ["Equipo3", "Equipo4"],
+    signatario: ["FFG", "RRTG"],
+    equipo: ["Equipo1", "Equipo5"],
     status: "Payed",
-    preciosubtotal: "500"
-  }
+    preciosubtotal: "2000"
+  },
+
+
+
+
 ]
 db.Proyectos.remove({})
 db.Ordenes.remove({})

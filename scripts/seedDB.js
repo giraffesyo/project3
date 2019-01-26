@@ -4,71 +4,269 @@ const db = require("../models")
 mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost/labdb")
 const proyectSeed = [
   {
-    clave: "1",
-    nombreempresa: "Salud Digna para Todos IAP (Miguel Hidalgo)",
+    clave: "814",
+    nombreempresa: "Asofarma de México, S.A de C.V",
     direccion:
       "Calz Mexico Xochimilco 43, Col. San Lorenzo Huipulco, Tlalpan, C.P 14370",
-    inicio: "Wed Jan 09 2019",
-    fin: "Sat Jan 12 2019",
+    inicio: "Tue Aug 07 2018",
+    fin: "Wed Aug 08 2018",
     preciototal: "8000",
-    cantidad: "3",
-    ordenes: {
-      clave: "1-FF-19-1",
-      rama: "FF",
-      tipodeestudio: "206",
-      start: "Wed Jan 09 2019",
-      end: "Wed Jan 09 2019",
-      metodos: [
-        "NMX-AA-009-1993, SCFI",
-        "NMX-AA-010-SCFI-2001",
-        "NMX-AA-035-1976",
-        "NMX-AA-054-1978",
-        "EPA METODO 3A-2008",
-        "EPA METODO 6C-2008",
-        "EPA METODO 7E-2008",
-        "EPA METODO 10-2008"
-      ],
-      signatario: ["AYB", "JMGA"],
-      equipo: ["Equipo1", "Equipo2"],
-      status: "Payed",
-      preciosubtotal: "5000"
-    }
-  }
-]
-const ordenSeed = [
-  {
-    clave: "2-AR-19-1",
-    rama: "AR",
-    tipodeestudio: "400",
-    start: "Fri Jan 11 2019",
-    end: "Fri Jan 11 2019",
-    metodos: [
-      "Estudio de aguas residuales con descarga a drenaje de red municipal"
-    ],
-    signatario: ["AMH", "RLJM"],
-    equipo: ["Equipo3", "Equipo4"],
-    status: "Payed",
-    preciosubtotal: "8000"
+    cantidad: "4",
+    ordenes: [
+      {
+        clave: "814-FF-18-1",
+        rama: "FF",
+        tipodeestudio: "206",
+        start: "Tue Aug 07 2018",
+        end: "Tue Aug 07 2018",
+        metodos: [
+          "NMX-AA-009-1993, SCFI",
+          "NMX-AA-010-SCFI-2001",
+          "NMX-AA-035-1976",
+          "NMX-AA-054-1978",
+          "EPA METODO 3A-2008",
+          "EPA METODO 6C-2008",
+          "EPA METODO 7E-2008",
+          "EPA METODO 10-2008"
+        ],
+        signatario: ["AYB", "JMGA"],
+        equipo: ["Equipo1", "Equipo2"],
+        status: "Payed",
+        preciosubtotal: "5000"
+      },
+      {
+        clave: "814-FF-18-3",
+        rama: "FF",
+        tipodeestudio: "206",
+        start: "Tue Aug 07 2018",
+        end: "Tue Aug 07 2018",
+        metodos: [
+          "NMX-AA-009-1993, SCFI",
+          "NMX-AA-010-SCFI-2001",
+          "NMX-AA-035-1976",
+          "NMX-AA-054-1978",
+          "EPA METODO 3A-2008",
+          "EPA METODO 6C-2008",
+          "EPA METODO 7E-2008",
+          "EPA METODO 10-2008"
+        ],
+        signatario: ["AYB"],
+        equipo: ["Equipo1", "Equipo2"],
+        status: "Payed",
+        preciosubtotal: "2000"
+      },
+      {
+        clave: "814-AR-18-1",
+        rama: "AR",
+        tipodeestudio: "206",
+        start: "Wed Aug 08 2018",
+        end: "Wed Aug 08 2018",
+        metodos: [
+          "NMX-AA-009-1993, SCFI",
+          "NMX-AA-010-SCFI-2001",
+          "NMX-AA-035-1976",
+          "NMX-AA-054-1978",
+          "EPA METODO 3A-2008",
+          "EPA METODO 6C-2008",
+          "EPA METODO 7E-2008",
+          "EPA METODO 10-2008"
+        ],
+        signatario: ["AYB"],
+        equipo: ["Equipo1", "Equipo2"],
+        status: "Payed",
+        preciosubtotal: "2000"
+      }
+    ]
   },
   {
-    clave: "2-AR-19-2",
-    rama: "AR",
-    tipodeestudio: "433",
-    start: "Fri Jan 12 2019",
-    end: "Fri Jan 12 2019",
-    metodos: [
-      "Estudio nuevo"
-    ],
-    signatario: ["AMH", "RLJM"],
-    equipo: ["Equipo3", "Equipo4"],
-    status: "Payed",
-    preciosubtotal: "500"
+    clave: "830",
+    nombreempresa: "Hospital General Balbuena S.S de la CDMX",
+    direccion:
+      "Calz de Cecilio Robelo y Sur 103, Col. Aeronautica Militar, Venustiano Carranza, C.P 15970",
+    inicio: "Mon Aug 13 2018",
+    fin: "Tue Aug 14 2018",
+    preciototal: "8000",
+    cantidad: "2",
+    ordenes: [
+      {
+        clave: "830-AR-18-1",
+        rama: "AR",
+        tipodeestudio: "206",
+        start: "Mon Aug 13 2018",
+        end: "Mon Aug 13 2018",
+        metodos: [
+          "NMX-AA-009-1993, SCFI",
+          "NMX-AA-010-SCFI-2001",
+          "NMX-AA-035-1976",
+          "NMX-AA-054-1978",
+          "EPA METODO 3A-2008",
+          "EPA METODO 6C-2008",
+          "EPA METODO 7E-2008",
+          "EPA METODO 10-2008"
+        ],
+        signatario: ["JMGA"],
+        equipo: ["Equipo3", "Equipo4"],
+        status: "Payed",
+        preciosubtotal: "5000"
+      },
+      {
+        clave: "830-FF-18-1",
+        rama: "FF",
+        tipodeestudio: "206",
+        start: "Tue Aug 14 2018",
+        end: "Tue Aug 14 2018",
+        metodos: [
+          "NMX-AA-009-1993, SCFI",
+          "NMX-AA-010-SCFI-2001",
+          "NMX-AA-035-1976",
+          "NMX-AA-054-1978",
+          "EPA METODO 3A-2008",
+          "EPA METODO 6C-2008",
+          "EPA METODO 7E-2008",
+          "EPA METODO 10-2008"
+        ],
+        signatario: ["JMGA"],
+        equipo: ["Equipo3", "Equipo4"],
+        status: "Payed",
+        preciosubtotal: "2000"
+      }
+    ]
+  },
+  {
+    clave: "831",
+    nombreempresa: "Asofarma de México, S.A de C.V",
+    direccion:
+      "Calz Mexico Xochimilco 43, Col. San Lorenzo Huipulco, Tlalpan, C.P 14370",
+    inicio: "Tue Aug 07 2018",
+    fin: "Wed Aug 08 2018",
+    preciototal: "8000",
+    cantidad: "4",
+    ordenes: [
+      {
+        clave: "831-FF-18-1",
+        rama: "FF",
+        tipodeestudio: "206",
+        start: "Tue Aug 07 2018",
+        end: "Tue Aug 07 2018",
+        metodos: [
+          "NMX-AA-009-1993, SCFI",
+          "NMX-AA-010-SCFI-2001",
+          "NMX-AA-035-1976",
+          "NMX-AA-054-1978",
+          "EPA METODO 3A-2008",
+          "EPA METODO 6C-2008",
+          "EPA METODO 7E-2008",
+          "EPA METODO 10-2008"
+        ],
+        signatario: ["AYB", "JMGA"],
+        equipo: ["Equipo1", "Equipo2"],
+        status: "Payed",
+        preciosubtotal: "5000"
+      },
+      {
+        clave: "831-AR-18-1",
+        rama: "AR",
+        tipodeestudio: "206",
+        start: "Tue Aug 07 2018",
+        end: "Tue Aug 07 2018",
+        metodos: [
+          "NMX-AA-009-1993, SCFI",
+          "NMX-AA-010-SCFI-2001",
+          "NMX-AA-035-1976",
+          "NMX-AA-054-1978",
+          "EPA METODO 3A-2008",
+          "EPA METODO 6C-2008",
+          "EPA METODO 7E-2008",
+          "EPA METODO 10-2008"
+        ],
+        signatario: ["AYB"],
+        equipo: ["Equipo1", "Equipo2"],
+        status: "Payed",
+        preciosubtotal: "2000"
+      },
+      {
+        clave: "831-FF-18-4",
+        rama: "FF",
+        tipodeestudio: "206",
+        start: "Wed Aug 08 2018",
+        end: "Wed Aug 08 2018",
+        metodos: [
+          "NMX-AA-009-1993, SCFI",
+          "NMX-AA-010-SCFI-2001",
+          "NMX-AA-035-1976",
+          "NMX-AA-054-1978",
+          "EPA METODO 3A-2008",
+          "EPA METODO 6C-2008",
+          "EPA METODO 7E-2008",
+          "EPA METODO 10-2008"
+        ],
+        signatario: ["AYB"],
+        equipo: ["Equipo1", "Equipo2"],
+        status: "Payed",
+        preciosubtotal: "2000"
+      }
+    ]
+  },
+  {
+    clave: "850",
+    nombreempresa: "Hospital General Balbuena S.S de la CDMX",
+    direccion:
+      "Calz de Cecilio Robelo y Sur 103, Col. Aeronautica Militar, Venustiano Carranza, C.P 15970",
+    inicio: "Mon Aug 13 2018",
+    fin: "Tue Aug 14 2018",
+    preciototal: "8000",
+    cantidad: "2",
+    ordenes: [
+      {
+        clave: "850-FF-18-1",
+        rama: "FF",
+        tipodeestudio: "206",
+        start: "Mon Aug 13 2018",
+        end: "Mon Aug 13 2018",
+        metodos: [
+          "NMX-AA-009-1993, SCFI",
+          "NMX-AA-010-SCFI-2001",
+          "NMX-AA-035-1976",
+          "NMX-AA-054-1978",
+          "EPA METODO 3A-2008",
+          "EPA METODO 6C-2008",
+          "EPA METODO 7E-2008",
+          "EPA METODO 10-2008"
+        ],
+        signatario: ["JMGA"],
+        equipo: ["Equipo3", "Equipo4"],
+        status: "Payed",
+        preciosubtotal: "5000"
+      },
+      {
+        clave: "850-AR-18-2",
+        rama: "AR",
+        tipodeestudio: "206",
+        start: "Tue Aug 14 2018",
+        end: "Tue Aug 14 2018",
+        metodos: [
+          "NMX-AA-009-1993, SCFI",
+          "NMX-AA-010-SCFI-2001",
+          "NMX-AA-035-1976",
+          "NMX-AA-054-1978",
+          "EPA METODO 3A-2008",
+          "EPA METODO 6C-2008",
+          "EPA METODO 7E-2008",
+          "EPA METODO 10-2008"
+        ],
+        signatario: ["JMGA"],
+        equipo: ["Equipo3", "Equipo4"],
+        status: "Payed",
+        preciosubtotal: "2000"
+      }
+    ]
   }
 ]
+
 db.Proyectos.remove({})
 db.Ordenes.remove({})
   .then(() => db.Proyectos.collection.insertMany(proyectSeed))
-  .then(() => db.Ordenes.collection.insertMany(ordenSeed))
+
   .then(data => {
     console.log(data.result.n + " records inserted!")
     process.exit(0)

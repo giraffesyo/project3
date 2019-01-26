@@ -12,11 +12,7 @@ export default {
   getMetodos: function() {
     return axios.get("/api/metodos");
   },
-  
-//   // Deletes the book with the given id
-//   deleteBook: function(id) {
-//     return axios.delete("/api/books/" + id);
-//   },
+
   // Saves a new signatario to the database
   saveSignatarioNuevo: function(signatarioData) {
     return axios.post("/api/signatarios", signatarioData);
@@ -28,5 +24,9 @@ export default {
   // Get one signatario by nombre
   getSignatarioSeleccionado: function(id) {
     return axios.get("/api/signatarios/" + id);
+  },
+  // Deletes un método de un signatario
+  deleteBook: function(metodo) {
+    return axios.delete("/api/signatarios/" + metodo);
   },
 };

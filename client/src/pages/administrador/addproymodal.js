@@ -24,10 +24,13 @@ class Addproyect extends Component {
     const { name, value } = event.target
     this.setState({ [name]: value })
   }
-  handleFormSubmit = event => {
+  handleFormSubmit = async event => {
     event.preventDefault()
-    console.log(this.state.from.toString());
-    API.saveProyect({
+    const {
+      props: { alert }
+    } = this
+
+    const res = await API.saveProyect({
       clave: this.state.clave,
       nombreempresa: this.state.nombreempresa,
       direccion: this.state.direccion,
@@ -36,9 +39,14 @@ class Addproyect extends Component {
       preciototal: this.state.preciototal,
       cantidad: this.state.cantidad
     })
-      .then(this.props.alert.success("Estudio añadido exitosamente"))
-      .then(this.setState({ success: true }))
-      .catch(err => console.log(err))
+    if (res.status === 200) {
+      // we successfully added it
+      alert.success("Proyecto añadido exitosamente")
+      this.setState({ success: true })
+    } else {
+      // show error information
+      alert.error("Problem adding")
+    }
   }
 
   constructor(props) {

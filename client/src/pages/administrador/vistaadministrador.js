@@ -13,13 +13,6 @@ class VistaAdministrador extends Component {
         <br />
         <div className="row">
           <div className="col">
-            <Link to="/addorder">
-              <button className="btn btn-success btn-lg active">
-                Agregar Estudio
-              </button>
-            </Link>
-          </div>
-          <div className="col">
             <button className="btn btn-primary btn-lg active">
               Consultar Estudio
             </button>
@@ -28,6 +21,13 @@ class VistaAdministrador extends Component {
             <button className="btn btn-danger btn-lg active">
               Cancelar Estudio
             </button>
+          </div>
+          <div className="col">
+            <Link to="/addproyect">
+              <button className="btn btn-success btn-lg active">
+                Agregar Proyecto
+              </button>
+            </Link>
           </div>
         </div>
         <br />

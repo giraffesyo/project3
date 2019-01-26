@@ -6,7 +6,7 @@ import API from "../../utils/API"
 
 class Addorden extends Component {
   state = {
-    clave: "",
+    claveO: "",
     rama: "",
     tipodeestudio: "",
     signatario: [],
@@ -24,7 +24,7 @@ class Addorden extends Component {
   handleFormSubmit = event => {
     event.preventDefault()
     API.saveOrden({
-      clave: this.state.clave,
+      clave: this.state.claveO,
       rama: this.state.rama,
       tipodeestudio: this.state.tipodeestudio,
       inicio: this.state.inicio,
@@ -38,6 +38,14 @@ class Addorden extends Component {
   render() {
     return (
       <div className="container">
+        <div className="jumbotron jumbotron-fluid">
+          <div className="container">
+            <h1 className="display-4">Añadir Estudios</h1>
+            <p className="lead">
+              Añade los estudios del proyecto correspondiente
+            </p>
+          </div>
+        </div>
         <form>
           <div className="form-row">
             <div className="form-group col-md-4">

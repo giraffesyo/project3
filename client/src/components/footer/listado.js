@@ -32,3 +32,14 @@ export const ListadoAgrupado = (props) => {
       </div>
     );
 }
+
+export const ListadoConBotonDelete= (props) => {
+    return (
+      
+      <div>    
+            <li className="list-group-item">{props.nombre}</li>
+            <button onClick={()=>props.BotonBorrarMetodo({...props})}> x </button>
+      </div>
+    );
+}
+

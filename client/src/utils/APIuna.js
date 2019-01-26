@@ -12,10 +12,7 @@ export default {
   getMetodos: function() {
     return axios.get("/api/metodos");
   },
-  // Get all signatarios
-  getSignatarios:function() {
-    return axios.get("/api/signatarios");
-  },
+  
 //   // Deletes the book with the given id
 //   deleteBook: function(id) {
 //     return axios.delete("/api/books/" + id);
@@ -24,7 +21,12 @@ export default {
   saveSignatarioNuevo: function(signatarioData) {
     return axios.post("/api/signatarios", signatarioData);
   },
-  // getSignatarioSeleccionado: function(nombre) {
-  //   return axios.get("/api/signatarios/" + nombre);
-  // },
+  // Get all signatarios
+  getSignatarios:function() {
+    return axios.get("/api/signatarios");
+  },
+  // Get one signatario by nombre
+  getSignatarioSeleccionado: function(id) {
+    return axios.get("/api/signatarios/" + id);
+  },
 };

@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import "./modal.css";
 import API from "../../utils/APIuna";
-import {Listado} from "./listado"
-import {Input} from "./Input"
+//import {Listado} from "./listado"
+import {Input, InputEditable} from "./Input"
 import {BotonGuardar} from "./botonGuardar"
-import {ListadoAgrupado} from "./listado"
+import {ListadoAgrupado, Listado, ListadoConBotonDelete} from "./listado"
 
 
 import ReactModal from 'react-modal';
@@ -16,6 +16,8 @@ class Engrane extends Component {
         showModal: false,
         showFormularioAgregarSignatario: false,
         showFormularioEditarSignatario: false,
+        hideAllButtons:false,
+        mostrarCamposDeDetalleEditar:false,
         liClass:"",
         metodosdisponibles:[],
         metodosSeleccionados:[],
@@ -26,6 +28,7 @@ class Engrane extends Component {
         todosSignatarios:[],
         encontradosSignatarios:[],
         filtrarSignatario: false,
+        detalleUnSignatario: { clave:"", nombre:"", contrasena:"", metodos:[] }
 
     }
 
@@ -52,11 +55,11 @@ class Engrane extends Component {
     }
   
     handleCloseModal = () =>{
-        this.setState({ showModal: false, showFormularioAgregarSignatario: false, showFormularioEditarSignatario: false });
+        this.setState({ showModal: false, showFormularioAgregarSignatario: false, showFormularioEditarSignatario: false, hideAllButtons:false });
     }
     
     empezaragregarsignatario = () =>{
-        this.setState({ showFormularioAgregarSignatario: true });
+        this.setState({ showFormularioAgregarSignatario: true, hideAllButtons:true });
         this.cargarmetodos();
     }
 
@@ -83,21 +86,15 @@ class Engrane extends Component {
             metodos: this.state.metodosSeleccionados,
             contrasena: this.state.contrasenaNuevoSignatario
         })
-        .then(res => this.setState({ showModal: false, showFormularioAgregarSignatario: false  }))
+        .then(res => this.setState({ showModal: false, showFormularioAgregarSignatario: false,hideAllButtons:false  }))
         .catch(err => console.log(err,"ERROR API.SAVEsIGNATARIOnUEVO"))
     }
 
     //--------------->MODAL SIGNATARIO EDITAR
     empezareditarsignatario = () => {
-        this.setState({ showFormularioEditarSignatario: true });
+        this.setState({ showFormularioEditarSignatario: true, hideAllButtons:true, metodosSeleccionados:[] });
         this.getTodosSignatarios()
-    }
-
-    handleOnChangeBuscarEditarSignatario = event => {
-        const {value, name} = event.target
-        this.setState({ [name]: value }, () => //El name es nombreBuscarEditarSignatario
-            this.filtrarBusquedaSignatarios() 
-        )
+        this.cargarmetodos()
     }
 
     getTodosSignatarios = () => {
@@ -106,7 +103,14 @@ class Engrane extends Component {
             this.filtrarBusquedaSignatarios()
         ))
         .catch(err => console.log(err, "ERROR API.GETtODOSsIGNATARIOS"))
-    };
+    }
+
+    handleOnChangeBuscarEditarSignatario = event => {
+        const {value, name} = event.target
+        this.setState({ [name]: value, mostrarCamposDeDetalleEditar:false }, () => //El name es nombreBuscarEditarSignatario
+            this.filtrarBusquedaSignatarios() 
+        )
+    }
 
     filtrarBusquedaSignatarios = () => {
        // this.setState((state) => { return {mensaje:
@@ -115,8 +119,59 @@ class Engrane extends Component {
         console.log("SIGNATARIO ENCONTRADO:",signatarioEncontrado)
 
         this.setState({encontradosSignatarios: signatarioEncontrado})
-
     }
+
+    //mostrarDetalleSignatario= {this.mostrarDetalleSignatario(signatarioEncontrado.nombresignatario)}
+    mostrarDetalleSignatario = nombreEsteSignatario => {
+        console.log("DETALLE DE",nombreEsteSignatario.id)
+        API.getSignatarioSeleccionado(nombreEsteSignatario.id)
+        //.then(res => this.setState({ detalleUnSignatario:  res.data   }) )
+
+        .then(res => this.setState({ mostrarCamposDeDetalleEditar:true, detalleUnSignatario:  {nombre: res.data[0].nombresignatario, clave:res.data[0].clave, contrasena: res.data[0].contrasena, metodos: res.data[0].metodos}     }) )
+        .catch(err => console.log(err));
+    }
+
+    borrarMetodoDeUnSignatario = metodoABorrar => {
+        this.setState({detalleUnSignatario:
+            {clave:this.state.detalleUnSignatario.clave, 
+            nombre:this.state.detalleUnSignatario.nombre,
+            contrasena:this.state.detalleUnSignatario.contrasena,
+            metodos: this.state.detalleUnSignatario.metodos.filter(function(person) { 
+                return person !== metodoABorrar.nombre 
+                })
+            } 
+        })
+    }
+
+    handleMetodoClickenEditar = valorLiClick => {
+        this.setState({ detalleUnSignatario: 
+            {clave:this.state.detalleUnSignatario.clave, 
+            nombre:this.state.detalleUnSignatario.nombre,
+            contrasena:this.state.detalleUnSignatario.contrasena,
+            metodos: this.state.detalleUnSignatario.metodos.concat(valorLiClick)}})
+    }
+
+    handleOnChangeAgregarMetodoEnEditarSignatario = event => {
+        const {value, name} = event.target
+        this.setState({ [name]: value })
+    }
+
+    agregarMetodoEscritoAUnSignatario = event => {
+        event.preventDefault()
+        this.setState({ detalleUnSignatario: 
+            {clave:this.state.detalleUnSignatario.clave, 
+            nombre:this.state.detalleUnSignatario.nombre,
+            contrasena:this.state.detalleUnSignatario.contrasena,
+            metodos: this.state.detalleUnSignatario.metodos.concat(this.state.metodosSeleccionados)}
+        }, ()=>{this.setState( {metodosSeleccionados:[]} )}
+        )
+    }
+
+
+
+    // API.borrarMetodoDeUnSignatario(metodoABorrar.nombre)
+    // .then(res => this.loadBooks())
+    // .catch(err=>console.log(err));
 
     // getSignatarioSeleccionado = () => {
     //     API.getSignatarioSeleccionado(this.state.nombreBuscarEditarSignatario)
@@ -151,10 +206,13 @@ class Engrane extends Component {
             ariaHideApp={true}
             shouldFocusAfterRender={true}
         >
+           
+            {this.state.hideAllButtons ? (null):(
+                <button onClick={this.empezaragregarsignatario}> Agregar empleado </button>)}
+            {this.state.hideAllButtons ? (null):(
+                <button onClick={this.empezareditarsignatario}> Editar empleado </button>)}
             
-            <button onClick={this.empezaragregarsignatario}>Agregar empleado</button>
-            <button onClick={this.empezareditarsignatario}>Editar empleado</button>
-
+            {/*--------- Agregar signatarios */}
             {this.state.showFormularioAgregarSignatario ? (
                 <form>
                     <div className="form-group">
@@ -192,7 +250,8 @@ class Engrane extends Component {
                     </div>
                 </form> 
             ) : (null)}
-
+            
+            {/*--------- Editar signatarios */}
             {this.state.showFormularioEditarSignatario ? (
                 <form>
                     <div className="form-group">
@@ -209,6 +268,7 @@ class Engrane extends Component {
                                     {this.state.encontradosSignatarios.map(signatarioEncontrado => (
                                     <ListadoAgrupado
                                         key={signatarioEncontrado._id}
+                                        id={signatarioEncontrado._id}
                                         nombre={signatarioEncontrado.nombresignatario}
                                         mostrarDetalleSignatario= {this.mostrarDetalleSignatario}
                                     />
@@ -220,9 +280,50 @@ class Engrane extends Component {
                             )}
                         </ul>
 
-
-
-
+                        {this.state.mostrarCamposDeDetalleEditar  ? ( 
+                        <div>
+                            <InputEditable
+                                label="Clave"
+                                name="claveSignatarioAEditar"
+                                defaultValue={this.state.detalleUnSignatario.clave}
+                            />
+                            <InputEditable
+                                label="Nombre"
+                                name="nombreSignatarioAEditar"
+                                defaultValue={this.state.detalleUnSignatario.nombre}
+                            />
+                            <InputEditable
+                                label="Contrasena"
+                                name="contrasenaSignatarioAEditar"
+                                defaultValue={this.state.detalleUnSignatario.contrasena}
+                            />
+                            {this.state.detalleUnSignatario.metodos.map(mapSusMetodos => (
+                                <ListadoConBotonDelete
+                                    key={Math.floor((Math.random() * 100) + 1)}
+                                    nombre={mapSusMetodos}
+                                    BotonBorrarMetodo={this.borrarMetodoDeUnSignatario}
+                                />
+                            ))}
+                            <Listado>
+                                {this.state.metodosdisponibles.map(mapmetodosdisponibles => (
+                                    <li className={`${this.state.liClass}`||"limetodos"} onClick={()=>this.handleMetodoClickenEditar(mapmetodosdisponibles.nombremetodo)} name={mapmetodosdisponibles.nombremetodo} id={mapmetodosdisponibles._id} key={mapmetodosdisponibles._id}>
+                                        {mapmetodosdisponibles.nombremetodo}
+                                    </li>
+                                ))}
+                            </Listado>
+                            <Input
+                                label="Agrega un nuevo método"
+                                name="metodosSeleccionados"
+                                value={this.state.metodosSeleccionados}
+                                onChange={this.handleOnChangeAgregarMetodoEnEditarSignatario}
+                            />
+                            <button onClick={this.agregarMetodoEscritoAUnSignatario}>Agregar Método</button>
+                            <BotonGuardar>
+                                Actualizar empleado
+                            </BotonGuardar>
+                        </div>
+                        ):(null)}   
+                        
 
                     </div>
                 </form>

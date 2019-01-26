@@ -6,9 +6,9 @@ router.route("/")
   .post(nuevoSignatarioController.create)
   .get(nuevoSignatarioController.findAllSignatarios);
 
-// Matches with "/api/signtarios/:nombre"
-// router.route("/:nombre")
-//   .get(nuevoSignatarioController.findOneSignatario);
+// Matches with "/api/signtarios/:id"
+router.route("/:id")
+  .get(nuevoSignatarioController.findOneSignatario);
 
 
 

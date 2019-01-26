@@ -7,7 +7,7 @@ mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost/labdb")
 
 const ramasSeed = [
   {
-    claverama: "1r",
+    claverama: "AR",
     nombrerama: "Aguas Residuales",
     tipodeestudio: ["01", "02", "03"]
   }

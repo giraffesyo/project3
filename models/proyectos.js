@@ -7,8 +7,8 @@ const ProyectosSchema = new Schema({
   direccion: { type: String },
   inicio: { type: Date, default: Date.now },
   fin: { type: Date, default: Date.now },
-  preciototal: { type: Number }, //Le puse precio total, para que en cada orden haya precio subtotal (el total es la suma de los subtotales)
-  cantidad: { type: Number },
+  preciototal: { type: Number },
+  cantidad: { type: Number }, //Le puse precio total, para que en cada orden haya precio subtotal (el total es la suma de los subtotales)
 
   // Lo de abajo es para popular:
   // `orden` is an object that stores a Orden mongo id

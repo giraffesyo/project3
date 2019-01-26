@@ -21,7 +21,7 @@
     "react-router-dom": "^4.3.1",
     "react-scripts": "2.1.2"
   },
-  "author": "Jessica, Dulcinea, Patricia, Horacio",
+  "author": "Jessica, Dulcinea, Patricia, Sergio",
   "license": "ISC",
   "devDependencies": {
     "concurrently": "^4.1.0",
@@ -35,7 +35,8 @@
     "build": "react-scripts build",
     "seed": "node scripts/seedDB.js",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "seed": "node scripts/seedDB.js && node scripts/seedDB2.js"
   },
   "eslintConfig": {
     "extends": "react-app"

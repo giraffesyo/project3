@@ -6,6 +6,7 @@ import API from "../../utils/API"
 
 class Addorden extends React.PureComponent {
   state = {
+    title: "",
     clave: "",
     rama: "",
     tipodeestudio: "",
@@ -31,6 +32,7 @@ class Addorden extends React.PureComponent {
   handleFormSubmit = event => {
     event.preventDefault()
     API.saveOrden({
+      title: this.state.tipodeestudio,
       proyecto: this.state.proyecto,
       clave: this.state.clave,
       rama: this.state.rama,

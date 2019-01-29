@@ -12,6 +12,7 @@ class Addproyect extends Component {
   }
   state = {
     success: false,
+    title: "",
     clave: "",
     nombreempresa: "",
     direccion: "",
@@ -31,6 +32,7 @@ class Addproyect extends Component {
     } = this
 
     const res = await API.saveProyect({
+      title: this.state.nombreempresa,
       clave: this.state.clave,
       nombreempresa: this.state.nombreempresa,
       direccion: this.state.direccion,

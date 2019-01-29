@@ -17,7 +17,7 @@ export default () => (
     <Router>
       <Switch>
         <Route exact path="/" component={VistaAdministrador} />
-        <Route exact path="/addorder" component={addEmpModal} />
+        <Route exact path="/addorder/:id" component={addEmpModal} />
         <Route exact path="/addproyect" component={addProyectModal} />
       </Switch>
     </Router>

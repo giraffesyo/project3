@@ -42,6 +42,7 @@ class Addproyect extends Component {
     if (res.status === 200) {
       // we successfully added it
       alert.success("Proyecto añadido exitosamente")
+      console.log(res)
       this.setState({ success: true })
     } else {
       // show error information
@@ -70,11 +71,11 @@ class Addproyect extends Component {
   }
 
   render() {
-    const { from, to, success } = this.state
+    const { from, to, success, clave } = this.state
     const modifiers = { start: from, end: to }
     return (
       <div className="container">
-        {success && <Redirect to="/addorder" />}
+        {success && <Redirect to={`/addorder/${clave}`} />}
         <div className="jumbotron jumbotron-fluid">
           <div className="container">
             <h1 className="display-4">Añadir Proyecto</h1>

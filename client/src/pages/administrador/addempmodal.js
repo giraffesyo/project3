@@ -1,12 +1,12 @@
-import React, { Component } from "react"
+import React from "react"
 import DayPickerInput from "react-day-picker/DayPickerInput"
 import "react-day-picker/lib/style.css"
 import API from "../../utils/API"
 //import { Link } from "react-router-dom"
 
-class Addorden extends Component {
+class Addorden extends React.PureComponent {
   state = {
-    claveO: "",
+    clave: "",
     rama: "",
     tipodeestudio: "",
     signatario: [],
@@ -17,6 +17,13 @@ class Addorden extends Component {
     status: "",
     comentarios: ""
   }
+
+  componentDidMount = () => {
+    //const { id } = this.props.match.params
+    //this.setState({ clave: id })
+    const { id: proyecto } = this.props.match.params
+    this.setState({ proyecto })
+  }
   handleChange = event => {
     const { name, value } = event.target
     this.setState({ [name]: value })
@@ -24,7 +31,8 @@ class Addorden extends Component {
   handleFormSubmit = event => {
     event.preventDefault()
     API.saveOrden({
-      clave: this.state.claveO,
+      proyecto: this.state.proyecto,
+      clave: this.state.clave,
       rama: this.state.rama,
       tipodeestudio: this.state.tipodeestudio,
       inicio: this.state.inicio,

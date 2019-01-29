@@ -1,23 +1,23 @@
 const db = require("../models")
 
 module.exports = {
-  create: function(req, res) {
-    db.Ordenes.create(req.body)
-      .then(dbModel => res.json(dbModel))
-      .then(function(dbModel) {
-        return db.Proyectos.findOneAndUpdate(
-          { _id: req.params.id },
-          { ordenes: dbModel._id },
+  create: (req, res) => {
+    const { proyecto, ...restOfBody } = req.body
+    db.Ordenes.create(restOfBody)
+      .then(dbModel =>
+        db.Proyectos.findOneAndUpdate(
+          { clave: parseInt(proyecto, 10) },
+          { $push: { ordenes: dbModel._id } },
           { new: true }
         )
-      })
-      .catch(err => res.status(422).json(err))
+      )
+      .then(dbModel => res.json(dbModel))
+      .catch(err => console.log(err) || res.status(422).json(err))
   },
   //DULCINEA AGREGÓ:
-  findAllOrdenes: function(req, res) { 
-    db.Ordenes
-      .find(req.query)
+  findAllOrdenes: function(req, res) {
+    db.Ordenes.find(req.query)
       .then(dbModel => res.json(dbModel))
-      .catch(err => res.status(422).json(err));
-  },
+      .catch(err => res.status(422).json(err))
+  }
 }

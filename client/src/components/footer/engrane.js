@@ -21,6 +21,7 @@ class Engrane extends Component {
         liClass:"",
         metodosdisponibles:[],
         metodosSeleccionados:[],
+        metodosSeleccionadosPorNombre:[],
         claveNuevoSignatario:"",
         nombreNuevoSignatario:"",
         contrasenaNuevoSignatario: "",
@@ -28,8 +29,8 @@ class Engrane extends Component {
         todosSignatarios:[],
         encontradosSignatarios:[],
         filtrarSignatario: false,
-        detalleUnSignatario: { clave:"", nombre:"", contrasena:"", metodos:[] }
-
+        detalleUnSignatario: { clave:"", nombre:"", contrasena:"", metodos:[], metodospornombre:[] },
+        metodoIdANombre:[]
     }
 
      //--------------->MENÚ TIPO TOGGLE
@@ -70,7 +71,7 @@ class Engrane extends Component {
     }
 
     handleMetodoClick = valorLiClick => {
-        this.setState({ metodosSeleccionados: this.state.metodosSeleccionados.concat(valorLiClick), liClass: "limetodosselect" })
+        this.setState({metodosSeleccionadosPorNombre: this.state.metodosSeleccionadosPorNombre.concat(valorLiClick.nombremetodo), metodosSeleccionados: this.state.metodosSeleccionados.concat(valorLiClick._id), liClass: "limetodosselect" })
     }
     
     handleOnChangeInputNuevoSignatario = event => {
@@ -80,12 +81,14 @@ class Engrane extends Component {
 
     botonGuardarEmpleadoNuevo = event => {
         event.preventDefault();
-        API.saveSignatarioNuevo({
+        //API.saveSignatarioNuevo({   ESTE FUNCIONA ANTES
+        API.postMetodosConSignatarios({
             clave: this.state.claveNuevoSignatario,
             nombresignatario: this.state.nombreNuevoSignatario,
             metodos: this.state.metodosSeleccionados,
-            contrasena: this.state.contrasenaNuevoSignatario
-        })
+            contrasena: this.state.contrasenaNuevoSignatario,
+            metodospornombre:this.state.metodosSeleccionadosPorNombre
+        }) 
         .then(res => this.setState({ showModal: false, showFormularioAgregarSignatario: false,hideAllButtons:false  }))
         .catch(err => console.log(err,"ERROR API.SAVEsIGNATARIOnUEVO"))
     }
@@ -121,34 +124,62 @@ class Engrane extends Component {
         this.setState({encontradosSignatarios: signatarioEncontrado})
     }
 
-    //mostrarDetalleSignatario= {this.mostrarDetalleSignatario(signatarioEncontrado.nombresignatario)}
     mostrarDetalleSignatario = nombreEsteSignatario => {
         console.log("DETALLE DE",nombreEsteSignatario.id)
         API.getSignatarioSeleccionado(nombreEsteSignatario.id)
         //.then(res => this.setState({ detalleUnSignatario:  res.data   }) )
-
-        .then(res => this.setState({ mostrarCamposDeDetalleEditar:true, detalleUnSignatario:  {nombre: res.data[0].nombresignatario, clave:res.data[0].clave, contrasena: res.data[0].contrasena, metodos: res.data[0].metodos}     }) )
+        
+        .then(res => this.setState({ mostrarCamposDeDetalleEditar:true, detalleUnSignatario:  {nombre: res.data[0].nombresignatario, clave:res.data[0].clave, contrasena: res.data[0].contrasena, metodos: res.data[0].metodos, metodospornombre: res.data[0].metodospornombre}     }) )
         .catch(err => console.log(err));
     }
 
+    // conversionMetodoIdANombre = () => {
+    //     let concidenciasEnNombreMetodo= []
+    //    for (let i=0; i<this.state.detalleUnSignatario.metodos.length; i++) {
+    //         let ca= this.state.detalleUnSignatario.metodos[i]
+    //         console.log(ca)
+    //         for(let i=0; i<this.state.metodosdisponibles.length; i++){
+    //            let ki= this.state.metodosdisponibles[i]
+    //             if(ki._id===ca){
+    //                 console.log("di",ki.nombremetodo)
+    //                 concidenciasEnNombreMetodo.push(ki.nombremetodo)
+    //                 console.log(concidenciasEnNombreMetodo)
+    //             }
+    //         }
+    //     }
+    // }
+
+
+
     borrarMetodoDeUnSignatario = metodoABorrar => {
-        this.setState({detalleUnSignatario:
+        const elindex =  this.state.detalleUnSignatario.metodos.findIndex(
+            esindex => esindex === metodoABorrar.nombre)
+        console.log("elindex",elindex)
+        const elindex2= this.state.detalleUnSignatario.metodospornombre.splice(elindex,1)
+        const elindex3= this.state.detalleUnSignatario.metodos.splice(elindex,1)
+         this.setState({detalleUnSignatario:
             {clave:this.state.detalleUnSignatario.clave, 
             nombre:this.state.detalleUnSignatario.nombre,
             contrasena:this.state.detalleUnSignatario.contrasena,
-            metodos: this.state.detalleUnSignatario.metodos.filter(function(person) { 
-                return person !== metodoABorrar.nombre 
-                })
+            metodos: this.state.detalleUnSignatario.metodos,
+            //FILTRADO EN CASO DE QUE PUSIERAS EN FRONT UNA ALERTA SI LE DAN CLICK A UN MÉTODO QUE YA EXISTÍA
+            // metodos: this.state.detalleUnSignatario.metodos.filter(function(person) { 
+            //     return person !== metodoABorrar.nombre 
+            //     }),
+            metodospornombre: this.state.detalleUnSignatario.metodospornombre
             } 
         })
     }
+
+   
 
     handleMetodoClickenEditar = valorLiClick => {
         this.setState({ detalleUnSignatario: 
             {clave:this.state.detalleUnSignatario.clave, 
             nombre:this.state.detalleUnSignatario.nombre,
             contrasena:this.state.detalleUnSignatario.contrasena,
-            metodos: this.state.detalleUnSignatario.metodos.concat(valorLiClick)}})
+            metodos: this.state.detalleUnSignatario.metodos.concat(valorLiClick._id),
+            metodospornombre: this.state.detalleUnSignatario.metodospornombre.concat(valorLiClick.nombremetodo)}})
     }
 
     handleOnChangeAgregarMetodoEnEditarSignatario = event => {
@@ -237,7 +268,7 @@ class Engrane extends Component {
                         />
                         <Listado>
                             {this.state.metodosdisponibles.map(mapmetodosdisponibles => (
-                                <li className={`${this.state.liClass}`||"limetodos"} onClick={()=>this.handleMetodoClick(mapmetodosdisponibles.nombremetodo)} name={mapmetodosdisponibles.nombremetodo} id={mapmetodosdisponibles._id} key={mapmetodosdisponibles._id}>
+                                <li className={`${this.state.liClass}`||"limetodos"} onClick={()=>this.handleMetodoClick(mapmetodosdisponibles)} name={mapmetodosdisponibles.nombremetodo} id={mapmetodosdisponibles._id} key={mapmetodosdisponibles._id}>
                                     {mapmetodosdisponibles.nombremetodo}
                                 </li>
                             ))}
@@ -297,27 +328,28 @@ class Engrane extends Component {
                                 name="contrasenaSignatarioAEditar"
                                 defaultValue={this.state.detalleUnSignatario.contrasena}
                             />
-                            {this.state.detalleUnSignatario.metodos.map(mapSusMetodos => (
+                            {this.state.detalleUnSignatario.metodospornombre.map((mapSusMetodos, index) => 
                                 <ListadoConBotonDelete
-                                    key={Math.floor((Math.random() * 100) + 1)}
+                                    key={Math.floor((Math.random() * 10000) + 1)}
                                     nombre={mapSusMetodos}
                                     BotonBorrarMetodo={this.borrarMetodoDeUnSignatario}
                                 />
-                            ))}
+                            )}
                             <Listado>
                                 {this.state.metodosdisponibles.map(mapmetodosdisponibles => (
-                                    <li className={`${this.state.liClass}`||"limetodos"} onClick={()=>this.handleMetodoClickenEditar(mapmetodosdisponibles.nombremetodo)} name={mapmetodosdisponibles.nombremetodo} id={mapmetodosdisponibles._id} key={mapmetodosdisponibles._id}>
+                                    <li className={`${this.state.liClass}`||"limetodos"} onClick={()=>this.handleMetodoClickenEditar(mapmetodosdisponibles)} name={mapmetodosdisponibles.nombremetodo} id={mapmetodosdisponibles._id} key={mapmetodosdisponibles._id}>
                                         {mapmetodosdisponibles.nombremetodo}
                                     </li>
                                 ))}
                             </Listado>
+                            {/* AGREGAR MÉTODO INEXISTENTE, SI FUNCIONA 
                             <Input
                                 label="Agrega un nuevo método"
                                 name="metodosSeleccionados"
                                 value={this.state.metodosSeleccionados}
                                 onChange={this.handleOnChangeAgregarMetodoEnEditarSignatario}
                             />
-                            <button onClick={this.agregarMetodoEscritoAUnSignatario}>Agregar Método</button>
+                            <button onClick={this.agregarMetodoEscritoAUnSignatario}>Agregar Método</button> */}
                             <BotonGuardar>
                                 Actualizar empleado
                             </BotonGuardar>

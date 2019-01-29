@@ -6,7 +6,12 @@ router.route("/")
 //   .post(booksController.create)
   .get(nuevoSignatarioController.findAll);
 
-// Matches with "/api/books/:id" Porque en el index.js de api, estoy poniendo que la base es /books
+//Matches with "api/metodos/signatario/:id"
+router.route("/signatario/:id")
+  .post(nuevoSignatarioController.createSignatarioEnMetodo)
+  .get(nuevoSignatarioController.findSignatarioEnMetodo);
+
+
 // router.route("/:id")
 //   .delete(booksController.remove);
 

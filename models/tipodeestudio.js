@@ -6,6 +6,7 @@ const TipodeestudioSchema = new Schema({
   nombretipodeestudio: { type: String, required: true },
   descripcion: { type: String },
   nombrerama: { type: String }, //ESTE CAMPO SE TIENE QUE BORRAR
+  
   // Lo de abajo es para popular:
   metodos: [
     {

@@ -11,8 +11,8 @@ class Addorden extends React.PureComponent {
     tipodeestudio: "",
     signatario: [],
     equipo: [],
-    inicio: "",
-    fin: "",
+    start: "",
+    end: "",
     preciosubtotal: "",
     status: "",
     comentarios: ""
@@ -35,8 +35,10 @@ class Addorden extends React.PureComponent {
       clave: this.state.clave,
       rama: this.state.rama,
       tipodeestudio: this.state.tipodeestudio,
-      inicio: this.state.inicio,
-      fin: this.state.fin,
+      signatario: this.state.signatario,
+      equipo: this.state.equipo,
+      start: this.state.day,
+      end: this.state.day,
       comentarios: this.state.comentarios,
       status: this.state.status,
       preciosubtotal: this.state.preciosubtotal
@@ -103,7 +105,7 @@ class Addorden extends React.PureComponent {
                 onChange={this.handleChange}
                 className="form-check-input"
                 type="checkbox"
-                id="inlineCheckbox1"
+                name="signatario"
                 value="AYB"
               />
               <label className="form-check-label">Alfredo Yáñez Báez</label>
@@ -113,7 +115,7 @@ class Addorden extends React.PureComponent {
                 onChange={this.handleChange}
                 className="form-check-input"
                 type="checkbox"
-                id="inlineCheckbox2"
+                name="signatario"
                 value="RJM"
               />
               <label className="form-check-label">Rocio Juárez Moran</label>
@@ -123,7 +125,7 @@ class Addorden extends React.PureComponent {
                 onChange={this.handleChange}
                 className="form-check-input"
                 type="checkbox"
-                id="inlineCheckbox3"
+                name="signatario"
                 value="KP"
                 disabled
               />
@@ -138,7 +140,7 @@ class Addorden extends React.PureComponent {
                 onChange={this.handleChange}
                 className="form-check-input"
                 type="checkbox"
-                id="inlineCheckbox1"
+                name="equipo"
                 value="Eq1"
               />
               <label className="form-check-label">Equipo 1</label>
@@ -148,7 +150,7 @@ class Addorden extends React.PureComponent {
                 onChange={this.handleChange}
                 className="form-check-input"
                 type="checkbox"
-                id="inlineCheckbox2"
+                name="equipo"
                 value="Eq2"
               />
               <label className="form-check-label">Equipo 2</label>
@@ -158,7 +160,7 @@ class Addorden extends React.PureComponent {
                 onChange={this.handleChange}
                 className="form-check-input"
                 type="checkbox"
-                id="inlineCheckbox3"
+                name="equipo"
                 value="Eq3"
                 disabled
               />
@@ -174,7 +176,7 @@ class Addorden extends React.PureComponent {
             <input
               onChange={this.handleChange}
               className="form-control"
-              id="inputPrecio"
+              name="preciosubtotal"
               placeholder="2500"
             />
           </div>
@@ -185,7 +187,7 @@ class Addorden extends React.PureComponent {
               onChange={this.handleChange}
               className="form-check-input"
               type="checkbox"
-              id="inlineCheckbox1"
+              name="status"
               value="Progress"
             />
             <label className="form-check-label">En progreso</label>
@@ -195,7 +197,7 @@ class Addorden extends React.PureComponent {
               onChange={this.handleChange}
               className="form-check-input"
               type="checkbox"
-              id="inlineCheckbox2"
+              name="status"
               value="AntPayment"
             />
             <label className="form-check-label">Pago en anticipo</label>
@@ -205,7 +207,7 @@ class Addorden extends React.PureComponent {
               onChange={this.handleChange}
               className="form-check-input"
               type="checkbox"
-              id="inlineCheckbox2"
+              name="status"
               value="FieldDone"
             />
             <label className="form-check-label">Ya fueron a campo</label>
@@ -215,7 +217,7 @@ class Addorden extends React.PureComponent {
               onChange={this.handleChange}
               className="form-check-input"
               type="checkbox"
-              id="inlineCheckbox2"
+              name="status"
               value="Concluded"
             />
             <label className="form-check-label">Concluido</label>
@@ -225,7 +227,7 @@ class Addorden extends React.PureComponent {
               onChange={this.handleChange}
               className="form-check-input"
               type="checkbox"
-              id="inlineCheckbox2"
+              name="status"
               value="Payed"
             />
             <label className="form-check-label">Pagado</label>
@@ -235,19 +237,21 @@ class Addorden extends React.PureComponent {
               onChange={this.handleChange}
               className="form-check-input"
               type="checkbox"
-              id="inlineCheckbox2"
+              name="status"
               value="Cancelled"
             />
             <label className="form-check-label">
               <div className="badge badge-danger text-wrap">Cancelado</div>
             </label>
           </div>
+
           <div className="form-group">
             <label>Comentarios</label>
             <textarea
               onChange={this.handleChange}
               className="form-control"
-              id="exampleFormControlTextarea1"
+              name="comentarios"
+              placeholder="Comentarios"
               rows="3"
             />
           </div>

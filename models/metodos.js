@@ -6,7 +6,7 @@ const MetodosSchema = new Schema({
   nombremetodo: { type: String, required: true },
 
     // Lo de abajo es para popular:
-    signatario: [{
+    signatariopopulado: [{
         type: Schema.Types.ObjectId,
         ref: "Signatarios"
     }],

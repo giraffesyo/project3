@@ -1,5 +1,7 @@
 import React, { Component as Compo } from "react";
 import "./calendario.css";
+import API from "../../utils/API";
+//import APIuna from "../../utils/APIuna";
 
 import Calendar from "react-big-calendar";
 import moment from "moment";
@@ -18,15 +20,27 @@ const localizer = Calendar.momentLocalizer(moment);
 class Section extends Compo {
   state = {
     events: [
-      {
-        start: new Date(),
-        end: new Date(moment().add(1, "days")),
-        title: "Some title",
-        //allDay: true     Para eventos de todo el día
-        //desc: 'Big conference for important people'   Para agregar info adicional
-      }
-    ]
+        {
+          start: new Date(),
+          end: new Date(moment().add(1, "days")),
+          title: "Some title",
+          //allDay: true     Para eventos de todo el día
+          //desc: 'Big conference for important people'   Para agregar info adicional
+        }
+      ]
   };
+
+
+
+  componentDidMount = () => {
+    API.getProyect()
+    .then(res => this.setState({ events: this.state.events.concat(res.data) }))
+    .catch(err => console.log(err));
+  }
+
+
+
+
 
   //-->Para arrastrar y cambiar el start y end del evento
   // El "event" contiene todo el evento
@@ -52,7 +66,6 @@ class Section extends Compo {
   handleSelect = ({ start, end }) => {
     const title = window.prompt('Nuevo nombre de evento')
     if (title)
-    //this.setState({events: this.state.events+event});
 
     this.setState(state => {
         state.events[0].start = start;
@@ -72,7 +85,7 @@ class Section extends Compo {
         <DnDCalendar 
           selectable //Hace posible que se pueda seleccionar
           onSelectSlot={this.handleSelect}
-          onSelectEvent={event => alert(event.title)} //Al hacer click sobre el evento, despliega info del evento
+          onSelectEvent={event => alert(event.nombreempresa + event.direccion)} //Al hacer click sobre el evento, despliega info del evento
           onEventDrop={this.onEventDrop}
           onEventResize={this.onEventResize}
           

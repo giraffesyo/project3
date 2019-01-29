@@ -3,7 +3,7 @@ const nuevoSignatarioController = require("../../../controllers/nuevosignatarioc
 
 // Matches with "/api/signatarios"
 router.route("/")
-  .post(nuevoSignatarioController.create)
+  //.post(nuevoSignatarioController.create) SI FUNCIONA
   .get(nuevoSignatarioController.findAllSignatarios);
 
 // Matches with "/api/signtarios/:id"

@@ -12,11 +12,12 @@ class Addproyect extends Component {
   }
   state = {
     success: false,
+    title: "",
     clave: "",
     nombreempresa: "",
     direccion: "",
-    inicio: "",
-    fin: "",
+    start: "",
+    end: "",
     preciototal: "",
     cantidad: ""
   }
@@ -31,17 +32,19 @@ class Addproyect extends Component {
     } = this
 
     const res = await API.saveProyect({
+      title: this.state.nombreempresa,
       clave: this.state.clave,
       nombreempresa: this.state.nombreempresa,
       direccion: this.state.direccion,
-      inicio: this.state.from.toLocaleDateString(),
-      fin: this.state.to.toLocaleDateString(),
+      start: this.state.from.toLocaleDateString(),
+      end: this.state.to.toLocaleDateString(),
       preciototal: this.state.preciototal,
       cantidad: this.state.cantidad
     })
     if (res.status === 200) {
       // we successfully added it
       alert.success("Proyecto añadido exitosamente")
+      console.log(res)
       this.setState({ success: true })
     } else {
       // show error information
@@ -70,11 +73,11 @@ class Addproyect extends Component {
   }
 
   render() {
-    const { from, to, success } = this.state
+    const { from, to, success, clave } = this.state
     const modifiers = { start: from, end: to }
     return (
       <div className="container">
-        {success && <Redirect to="/addorder" />}
+        {success && <Redirect to={`/addorder/${clave}`} />}
         <div className="jumbotron jumbotron-fluid">
           <div className="container">
             <h1 className="display-4">Añadir Proyecto</h1>

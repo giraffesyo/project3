@@ -1,22 +1,18 @@
 import axios from "axios"
 
 export default {
-  saveOrden: function(estudioData) {
-    return (
-      axios.post("/api/ordenes/add/:id", estudioData),
-      axios.get("/api/ordenes/add/:id", estudioData)
-    )
-  },
+  saveOrden: estudioData => axios.post("/api/ordenes/add", estudioData),
   saveProyect: function(proyectData) {
     console.log(proyectData)
     return axios.post("/api/proyectos/add", proyectData)
   },
+  getProject: id => axios.get(`/api/proyectos/${id}`),
   //DULCINEA AGREGÓ:
-  getProyect:function() {
-    return axios.get("/api/proyectos/add");
+  getProyect: function() {
+    return axios.get("/api/proyectos/add")
   },
   //DULCINEA AGREGÓ:
-  getOrden:function() {
-    return axios.get("/api/ordenes/add");
-  },
+  getOrden: function() {
+    return axios.get("/api/ordenes/add")
+  }
 }

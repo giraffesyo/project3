@@ -18,7 +18,8 @@
   "scripts": {
     "start": "concurrently --prefix \"[{name}]\" --names \"React, Express\" -c \"bgBlue.bold,bgYellow.bold\" \"cd client && yarn start\" \"nodemon -e js,json server.js\"",
     "seed": "node scripts/seedDB2.js",
-    "heroku-postbuild": "yarn && cd client && yarn && yarn build && cd .. && node server.js"
+    "build:app": "cd client && yarn build",
+    "heroku-postbuild": "yarn build:app"
   },
   "eslintConfig": {
     "extends": "react-app"

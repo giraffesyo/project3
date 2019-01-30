@@ -89,71 +89,71 @@ const proyectSeed = [
     end: "Wed Aug 08 2018",
     preciototal: "8000",
     cantidad: "4",
-    // ordenes: [
-    //   {
-    //     clave: "814-FF-18-1",
-    //     rama: "FF",
-    //     tipodeestudio: "206",
-    //     start: "Tue Aug 07 2018",
-    //     end: "Tue Aug 07 2018",
-    //     metodos: [
-    //       "NMX-AA-009-1993, SCFI",
-    //       "NMX-AA-010-SCFI-2001",
-    //       "NMX-AA-035-1976",
-    //       "NMX-AA-054-1978",
-    //       "EPA METODO 3A-2008",
-    //       "EPA METODO 6C-2008",
-    //       "EPA METODO 7E-2008",
-    //       "EPA METODO 10-2008"
-    //     ],
-    //     signatario: ["AYB", "JMGA"],
-    //     equipo: ["Equipo1", "Equipo2"],
-    //     status: "Payed",
-    //     preciosubtotal: "5000"
-    //   },
-    //   {
-    //     clave: "814-FF-18-3",
-    //     rama: "FF",
-    //     tipodeestudio: "206",
-    //     start: "Tue Aug 07 2018",
-    //     end: "Tue Aug 07 2018",
-    //     metodos: [
-    //       "NMX-AA-009-1993, SCFI",
-    //       "NMX-AA-010-SCFI-2001",
-    //       "NMX-AA-035-1976",
-    //       "NMX-AA-054-1978",
-    //       "EPA METODO 3A-2008",
-    //       "EPA METODO 6C-2008",
-    //       "EPA METODO 7E-2008",
-    //       "EPA METODO 10-2008"
-    //     ],
-    //     signatario: ["AYB"],
-    //     equipo: ["Equipo1", "Equipo2"],
-    //     status: "Payed",
-    //     preciosubtotal: "2000"
-    //   },
-    //   {
-    //     clave: "814-AR-18-1",
-    //     rama: "AR",
-    //     tipodeestudio: "206",
-    //     start: "Wed Aug 08 2018",
-    //     end: "Wed Aug 08 2018",
-    //     metodos: [
-    //       "NMX-AA-009-1993, SCFI",
-    //       "NMX-AA-010-SCFI-2001",
-    //       "NMX-AA-035-1976",
-    //       "NMX-AA-054-1978",
-    //       "EPA METODO 3A-2008",
-    //       "EPA METODO 6C-2008",
-    //       "EPA METODO 7E-2008",
-    //       "EPA METODO 10-2008"
-    //     ],
-    //     signatario: ["AYB"],
-    //     equipo: ["Equipo1", "Equipo2"],
-    //     status: "Payed",
-    //     preciosubtotal: "2000"
-    //   }
-    // ]
+    ordenes: [
+      {
+        clave: "814-FF-18-1",
+        rama: "FF",
+        tipodeestudio: "206",
+        start: "Tue Aug 07 2018",
+        end: "Tue Aug 07 2018",
+        metodos: [
+          "NMX-AA-009-1993, SCFI",
+          "NMX-AA-010-SCFI-2001",
+          "NMX-AA-035-1976",
+          "NMX-AA-054-1978",
+          "EPA METODO 3A-2008",
+          "EPA METODO 6C-2008",
+          "EPA METODO 7E-2008",
+          "EPA METODO 10-2008"
+        ],
+        signatario: ["AYB", "JMGA"],
+        equipo: ["Equipo1", "Equipo2"],
+        status: "Payed",
+        preciosubtotal: "5000"
+      },
+      {
+        clave: "814-FF-18-3",
+        rama: "FF",
+        tipodeestudio: "206",
+        start: "Tue Aug 07 2018",
+        end: "Tue Aug 07 2018",
+        metodos: [
+          "NMX-AA-009-1993, SCFI",
+          "NMX-AA-010-SCFI-2001",
+          "NMX-AA-035-1976",
+          "NMX-AA-054-1978",
+          "EPA METODO 3A-2008",
+          "EPA METODO 6C-2008",
+          "EPA METODO 7E-2008",
+          "EPA METODO 10-2008"
+        ],
+        signatario: ["AYB"],
+        equipo: ["Equipo1", "Equipo2"],
+        status: "Payed",
+        preciosubtotal: "2000"
+      },
+      {
+        clave: "814-AR-18-1",
+        rama: "AR",
+        tipodeestudio: "206",
+        start: "Wed Aug 08 2018",
+        end: "Wed Aug 08 2018",
+        metodos: [
+          "NMX-AA-009-1993, SCFI",
+          "NMX-AA-010-SCFI-2001",
+          "NMX-AA-035-1976",
+          "NMX-AA-054-1978",
+          "EPA METODO 3A-2008",
+          "EPA METODO 6C-2008",
+          "EPA METODO 7E-2008",
+          "EPA METODO 10-2008"
+        ],
+        signatario: ["AYB"],
+        equipo: ["Equipo1", "Equipo2"],
+        status: "Payed",
+        preciosubtotal: "2000"
+      }
+    ]
   },
   {
     title:"830",
@@ -165,50 +165,50 @@ const proyectSeed = [
     end: "Tue Aug 14 2018",
     preciototal: "8000",
     cantidad: "2",
-    // ordenes: [
-    //   {
-    //     clave: "830-AR-18-1",
-    //     rama: "AR",
-    //     tipodeestudio: "206",
-    //     inicio: "Mon Aug 13 2018",
-    //     fin: "Mon Aug 13 2018",
-    //     metodos: [
-    //       "NMX-AA-009-1993, SCFI",
-    //       "NMX-AA-010-SCFI-2001",
-    //       "NMX-AA-035-1976",
-    //       "NMX-AA-054-1978",
-    //       "EPA METODO 3A-2008",
-    //       "EPA METODO 6C-2008",
-    //       "EPA METODO 7E-2008",
-    //       "EPA METODO 10-2008"
-    //     ],
-    //     signatario: ["JMGA"],
-    //     equipo: ["Equipo3", "Equipo4"],
-    //     status: "Payed",
-    //     preciosubtotal: "5000"
-    //   },
-    //   {
-    //     clave: "830-FF-18-1",
-    //     rama: "FF",
-    //     tipodeestudio: "206",
-    //     inicio: "Tue Aug 14 2018",
-    //     fin: "Tue Aug 14 2018",
-    //     metodos: [
-    //       "NMX-AA-009-1993, SCFI",
-    //       "NMX-AA-010-SCFI-2001",
-    //       "NMX-AA-035-1976",
-    //       "NMX-AA-054-1978",
-    //       "EPA METODO 3A-2008",
-    //       "EPA METODO 6C-2008",
-    //       "EPA METODO 7E-2008",
-    //       "EPA METODO 10-2008"
-    //     ],
-    //     signatario: ["JMGA"],
-    //     equipo: ["Equipo3", "Equipo4"],
-    //     status: "Payed",
-    //     preciosubtotal: "2000"
-    //   }
-    // ]
+    ordenes: [
+      {
+        clave: "830-AR-18-1",
+        rama: "AR",
+        tipodeestudio: "206",
+        inicio: "Mon Aug 13 2018",
+        fin: "Mon Aug 13 2018",
+        metodos: [
+          "NMX-AA-009-1993, SCFI",
+          "NMX-AA-010-SCFI-2001",
+          "NMX-AA-035-1976",
+          "NMX-AA-054-1978",
+          "EPA METODO 3A-2008",
+          "EPA METODO 6C-2008",
+          "EPA METODO 7E-2008",
+          "EPA METODO 10-2008"
+        ],
+        signatario: ["JMGA"],
+        equipo: ["Equipo3", "Equipo4"],
+        status: "Payed",
+        preciosubtotal: "5000"
+      },
+      {
+        clave: "830-FF-18-1",
+        rama: "FF",
+        tipodeestudio: "206",
+        inicio: "Tue Aug 14 2018",
+        fin: "Tue Aug 14 2018",
+        metodos: [
+          "NMX-AA-009-1993, SCFI",
+          "NMX-AA-010-SCFI-2001",
+          "NMX-AA-035-1976",
+          "NMX-AA-054-1978",
+          "EPA METODO 3A-2008",
+          "EPA METODO 6C-2008",
+          "EPA METODO 7E-2008",
+          "EPA METODO 10-2008"
+        ],
+        signatario: ["JMGA"],
+        equipo: ["Equipo3", "Equipo4"],
+        status: "Payed",
+        preciosubtotal: "2000"
+      }
+    ]
   },
   {
     clave: "831",

@@ -21,7 +21,7 @@
     "start:dev": "concurrently \"nodemon --ignore 'client/*'\" \"npm run client\"",
     "client": "cd client && npm run start",
     "build": "react-scripts build",
-    "seed": "node scripts/seedDB.js",
+    "seed": "node scripts/seedDB2.js",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },

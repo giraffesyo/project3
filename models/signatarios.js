@@ -6,6 +6,7 @@ const SignatariosSchema = new Schema({
   clave: { type: String, required: true, unique: true }, //Este es el id que pusiste en el excel, lo pongo como "clave" para que no se confunda con el id que genera automáticamente mongo, el unique:true evita que se genere contenido duplicado
   nombresignatario: { type: String, required: true },
   metodos: { type: [String], unique: true },
+  metodospornombre: { type: [String], unique: true },
   contrasena: { type: String }
 })
 const Signatarios = mongoose.model("Signatarios", SignatariosSchema)

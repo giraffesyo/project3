@@ -11,6 +11,9 @@ const ProyectosSchema = new Schema({
   preciototal: { type: Number },
   cantidad: { type: Number }, //Le puse precio total, para que en cada orden haya precio subtotal (el total es la suma de los subtotales)
 
+  color:{ type: String },
+
+
   // Lo de abajo es para popular:
   // `orden` is an object that stores a Orden mongo id
   // The ref property links the ObjectId to the Orden model

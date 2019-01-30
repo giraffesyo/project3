@@ -1,11 +1,9 @@
-import React from "react";
-
+import React from "react"
 
 export const Editarempleadomodal = props => {
   return (
-    <button {...props} >
-       editar EMPLEADO
+    <button className="btn btn-secondary btn-lg active" {...props}>
+      Editar Empleado
     </button>
-  );
+  )
 }
-

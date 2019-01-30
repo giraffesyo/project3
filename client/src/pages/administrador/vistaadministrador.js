@@ -3,13 +3,12 @@ import Section from "../../components/section"
 import Engrane from "../../components/footer/engrane"
 import { Link } from "react-router-dom"
 
-
 class VistaAdministrador extends Component {
   render() {
     return (
       <div className="container">
         <Section />
-        <Engrane/>
+        <Engrane />
         <br />
         <div className="row">
           <div className="col">
@@ -31,11 +30,6 @@ class VistaAdministrador extends Component {
           </div>
         </div>
         <br />
-        <div className="row">
-          <div className="col">
-            <button className="btn btn-secondary btn-lg active">Editar</button>
-          </div>
-        </div>
       </div>
     )
   }

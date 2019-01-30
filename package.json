@@ -16,10 +16,7 @@
     "nodemon": "^1.18.7"
   },
   "scripts": {
-    "start": "if-env NODE_ENV=production && npm run start:prod || npm run start:dev",
-    "start:prod": "node server.js",
-    "start:dev": "concurrently \"nodemon --ignore 'client/*'\" \"npm run client\"",
-    "client": "cd client && yarn start",
+    "start": "concurrently --prefix \"[{name}]\" --names \"React, Express\" -c \"bgBlue.bold,bgYellow.bold\" \"cd client && yarn start\" \"nodemon -e js,json server.js\"",
     "seed": "node scripts/seedDB2.js",
     "heroku-postbuild": "yarn && cd client && yarn && yarn build && cd .. && node server.js"
   },

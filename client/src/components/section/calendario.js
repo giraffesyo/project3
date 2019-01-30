@@ -28,12 +28,12 @@ class Section extends Compo {
           //allDay: true     Para eventos de todo el día
           //desc: 'Big conference for important people'   Para agregar info adicional
         },
-        {
-          title: 'on DST',
-          start: new Date(2019, 2, 1, 1),
-          end: new Date(2019, 2, 1, 2, 30),
-          allDay: false,
-        },
+        // {
+        //   title: 'on DST',
+        //   start: new Date(2019, 2, 1, 1),
+        //   end: new Date(2019, 2, 1, 2, 30),
+        //   allDay: false,
+        // },
         {
           title: 'crosses DST',
           start: new Date(2019, 2, 1, 5),

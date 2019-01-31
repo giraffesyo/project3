@@ -2,13 +2,17 @@ import React, { Component as Compo } from "react"
 import "./calendario.css"
 import API from "../../utils/API"
 //import APIuna from "../../utils/APIuna";
+import { InformacionAMostrar } from "./Input"
+import { Card } from "./card"
+
 
 import Calendar from "react-big-calendar"
 import moment from "moment"
 import "react-big-calendar/lib/css/react-big-calendar.css"
-
 import "react-big-calendar/lib/addons/dragAndDrop/styles.css"
 import withDragAndDrop from "react-big-calendar/lib/addons/dragAndDrop"
+import ReactModal from "react-modal"
+ReactModal.setAppElement("#root")
 
 const DnDCalendar = withDragAndDrop(Calendar)
 //Calendar.setLocalizer(Calendar.momentLocalizer(moment)); Esto es igual a la línea de abajo, pero sin requerir llamarlo más abajo en el render
@@ -16,40 +20,41 @@ const localizer = Calendar.momentLocalizer(moment)
 
 class Section extends Compo {
   state = {
+    showModal: false,
+    eventoSeleccionado:"",
+    proyectoSeleccionado: {
+      title:"",
+      clave:null,
+      nombreempresa:"",
+      direccion:"",
+      start:"",
+      end:"",
+      preciototal:null,
+    },
+    ordenesDeEsteProyecto:[
+      // id:"",
+      // title:"",
+      // clave:"",
+      // rama:"",
+      // tipodeestudio:"",
+      // signatarios:[],
+      // comentarios:"",
+      // status:"",
+      // preciosubtotal:null,
+      // start:"",
+      // end:"",
+    ],
     events: [
-      {
-        start: new Date(),
-        end: new Date(moment().add(1, "days")),
-        color: "",
-        title: "Some title",
-        resourceId: 1,
-        //allDay: true     Para eventos de todo el día
-        //desc: 'Big conference for important people'   Para agregar info adicional
-      },
       // {
-      //   title: 'on DST',
-      //   start: new Date(2019, 2, 1, 1),
-      //   end: new Date(2019, 2, 1, 2, 30),
-      //   allDay: false,
+      //   start: new Date(),
+      //   end: new Date(moment().add(1, "days")),
+      //   color: "",
+      //   title: "Some title",
+       
+      //   //allDay: true     Para eventos de todo el día
+      //   //desc: 'Big conference for important people'   Para agregar info adicional
       // },
-      // {
-      //   title: "crosses DST",
-      //   start: new Date(2019, 2, 1, 5),
-      //   end: new Date(2019, 2, 1, 6, 30),
-      //   allDay: false
-      // },
-      // {
-      //   title: "MultiDay 1",
-      //   start: new Date(2019, 3, 24),
-      //   color: "#dc143c",
-      //   end: new Date(2019, 3, 25, 1, 0, 0, 0)
-      // },
-      // {
-      //   title: "MultiDay 2",
-      //   start: new Date(2019, 3, 25),
-
-      //   end: new Date(2019, 3, 26, 6, 0, 0, 0)
-      // },
+     
       // {
       //   title: "has time",
       //   start: moment(new Date(2016, 11, 3))
@@ -68,28 +73,58 @@ class Section extends Compo {
   
 
   componentDidMount = () => {
+    const seleccionarColorRandom = "#" + Math.floor(Math.random() * 16777215).toString(16)
+    console.log("color random", seleccionarColorRandom)
     API.getOrden()
       .then(res => this.setState({ events: this.state.events.concat(res.data) }) )
       .catch(err => console.log(err))
   }
   
-  // componentDidMount = () => {
-  //   const seleccionarColorRandom =
-  //     "#" + Math.floor(Math.random() * 16777215).toString(16)
-  //   console.log("color random", seleccionarColorRandom)
-  //   API.getProyect()
-  //     .then(res =>
-  //       this.setState({ events: this.state.events.concat(res.data) })
-  //     )
-  //     .then(res =>
-  //       this.setState(state => {
-  //         state.events[0].color = seleccionarColorRandom
-  //       })
-  //     )
-  //     .catch(err => console.log(err))
-  // }
+  //------------------------->MODAL
+  handleOpenModal = event => {
+    console.log("event modal",event)
+    this.setState({ showModal: true, eventoSeleccionado: event.clave.slice(0,3) },
+      () => { this.buscarProyecto() })
+  }
 
-  //-->Para arrastrar y cambiar el start y end del evento
+  handleCloseModal = () => {
+    this.setState({ showModal: false, eventoSeleccionado:[]})
+  }
+
+  buscarProyecto = () => {
+    API.getProyect()
+    .then(res =>  this.buscarProyecto2(res.data))
+    .catch(err => console.log(err))
+  }
+
+  buscarProyecto2 = (data) => {
+    console.log("Todos los proyectos:",data)
+    Array.prototype.findByValueOfObject = function(key, value) {
+      return data.filter(function(item) {
+        return (item[key] === value);
+      })
+    }
+    console.log("Proyecto relacionado a esta orden:",Array.prototype.findByValueOfObject("clave", parseInt(this.state.eventoSeleccionado)))
+    let result= Array.prototype.findByValueOfObject("clave", parseInt(this.state.eventoSeleccionado))
+    this.setState({ proyectoSeleccionado:{ 
+      clave: result[0].clave,
+      nombreempresa: result[0].nombreempresa,
+      direccion: result[0].direccion
+      } 
+      },()=>{
+          let eventosDeEsteProyecto = this.state.events.filter(( elemento => parseInt(elemento.clave.slice(0,3)) == this.state.proyectoSeleccionado.clave  ))
+          console.log("Eventos de este proyecto:",eventosDeEsteProyecto)
+          this.setState({ ordenesDeEsteProyecto: eventosDeEsteProyecto })
+        },
+    )
+  }
+
+
+
+
+
+  //----------------------->PROPIEDADES DEL CALENDARIO
+  //Para arrastrar y cambiar el start y end del evento
   // El "event" contiene todo el evento
   onEventDrop = ({ event, start, end }) => {
     this.setState(state => {
@@ -122,6 +157,10 @@ class Section extends Compo {
     //console.log(event)
   }
 
+
+
+
+
   render() {
     // const culture="es"
     // let formats = {
@@ -135,19 +174,15 @@ class Section extends Compo {
     //     localizer.format(end, { date: 'short' }, culture)
     // }
 
-    const resourceMap = [
-      { resourceId: 1, resourceTitle: 'Board room' },
-      { resourceId: 2, resourceTitle: 'Training room' },
-      { resourceId: 3, resourceTitle: 'Meeting room 1' },
-      { resourceId: 4, resourceTitle: 'Meeting room 2' },
-    ]
+    
     return (
       <div className="contenedorcalendario">
         <DnDCalendar
           popup //Para extender cuando hay varios eventos en un mismo día
           selectable //Hace posible que se pueda seleccionar
           onSelectSlot={this.handleSelect}
-          onSelectEvent={event => alert(event.clave + event.tipodeestudio)} //Al hacer click sobre el evento, despliega info del evento
+          onSelectEvent={event=>this.handleOpenModal(event)} //Al hacer click sobre el evento, despliega info del evento
+          // onSelectEvent={event => alert(event.clave + event.tipodeestudio)} 
           onEventDrop={this.onEventDrop}
           onEventResize={this.onEventResize}
           localizer={localizer}
@@ -155,16 +190,76 @@ class Section extends Compo {
           defaultView="month"
           events={this.state.events}
           style={{ height: "70vh" }} //Sin esta línea no se muestra el calendario
-          eventPropGetter={event => ({
-            style: { backgroundColor: event.color }
-          })} //Añadir props a los events, ej. cambiar color
+          eventPropGetter={event => ({style: { backgroundColor: event.color } })} //Añadir props a los events, ej. cambiar color
           //  formats={formats}//Formato de fecha e idioma
           //   culture="es"
-          // views={["month", "day"]}
-          resources={resourceMap}
-          resourceIdAccessor="resourceId"
-          resourceTitleAccessor="resourceTitle"
+          views={["month"]}
+         
         />
+        <ReactModal
+          isOpen={this.state.showModal}
+          contentLabel="onRequestClose Example"
+          onRequestClose={this.handleCloseModal}
+          shouldCloseOnOverlayClick={false}
+          ariaHideApp={true}
+          shouldFocusAfterRender={true}
+        >
+          <div className="row">
+            <div className="col-md-8">
+              <form>
+                  <div className="form-group">
+                    <label>Proyecto</label>
+                  </div>
+                  <InformacionAMostrar 
+                    label="Clave"
+                    name="laClave"
+                    defaultValue={this.state.proyectoSeleccionado.clave}
+                  />
+                  <InformacionAMostrar 
+                    label="Empresa"
+                    name="laEmpresa"
+                    defaultValue={this.state.proyectoSeleccionado.nombreempresa}
+                  />
+                  <InformacionAMostrar 
+                    label="Dirección"
+                    name="laDireccion"
+                    defaultValue={this.state.proyectoSeleccionado.direccion}
+                  />
+              </form>
+            </div>
+          </div>
+          {this.state.ordenesDeEsteProyecto ? (
+            <div className="row">
+              {this.state.ordenesDeEsteProyecto.map(elementos => (
+                <div className="col-sm-4">
+                <Card
+                  key={elementos._id}
+                  clave={elementos.clave}
+                  tipodeestudio={elementos.tipodeestudio}
+                  src={"http://www.fundacionunam.org.mx/wp-content/uploads/2015/07/residuales_portada.jpg"}
+                  rama={elementos.rama}
+                  signatario={elementos.signatario}
+                  equipo={elementos.equipo}
+                  comentarios={elementos.comentarios}
+                  status={elementos.status}
+                  preciosubtotal={elementos.preciosubtotal}
+                  start={(elementos.start).substring(0, 10)}
+                  end={elementos.end.substring(0, 10)}
+                />
+                </div>
+              ))}
+            </div>
+          ) : (null) }
+          
+          
+          <button
+            className="btn btn-danger btn-lg active"
+            onClick={this.handleCloseModal}
+          >
+            Cerrar
+          </button>
+        </ReactModal>
+
       </div>
     )
   }

@@ -166,7 +166,6 @@ class Engrane extends Component {
     console.log("DETALLE DE", nombreEsteSignatario.id)
     API.getSignatarioSeleccionado(nombreEsteSignatario.id)
       //.then(res => this.setState({ detalleUnSignatario:  res.data   }) )
-
       .then(res =>
         this.setState({
           mostrarCamposDeDetalleEditar: true,
@@ -203,10 +202,7 @@ class Engrane extends Component {
       esindex => esindex === metodoABorrar.nombre
     )
     console.log("elindex", elindex)
-    const elindex2 = this.state.detalleUnSignatario.metodospornombre.splice(
-      elindex,
-      1
-    )
+    const elindex2 = this.state.detalleUnSignatario.metodospornombre.splice(elindex,1)
     const elindex3 = this.state.detalleUnSignatario.metodos.splice(elindex, 1)
     this.setState({
       detalleUnSignatario: {
@@ -229,12 +225,8 @@ class Engrane extends Component {
         clave: this.state.detalleUnSignatario.clave,
         nombre: this.state.detalleUnSignatario.nombre,
         contrasena: this.state.detalleUnSignatario.contrasena,
-        metodos: this.state.detalleUnSignatario.metodos.concat(
-          valorLiClick._id
-        ),
-        metodospornombre: this.state.detalleUnSignatario.metodospornombre.concat(
-          valorLiClick.nombremetodo
-        )
+        metodos: this.state.detalleUnSignatario.metodos.concat( valorLiClick._id),
+        metodospornombre: this.state.detalleUnSignatario.metodospornombre.concat(valorLiClick.nombremetodo)
       }
     })
   }
@@ -280,23 +272,19 @@ class Engrane extends Component {
           className="menu-editar btn btn-secondary btn-lg active"
           onClick={this.showMenu}
         >
-          {" "}
-          Editar{" "}
+          {" "}Editar{" "}
         </button>
 
         {this.state.showMenu ? (
           <div
             className="interiormenu-editar"
-            ref={element => {
-              this.dropdownMenu = element
-            }}
+            ref={element => {this.dropdownMenu = element}}
           >
             <button
               className="boton-baseeditar btn btn-primary btn-lg active"
               onClick={this.handleOpenModal}
             >
-              {" "}
-              Empleado{" "}
+              {" "} Empleado{" "}
             </button>
             {/* <button className="boton-baseeditar" onClick={()=>props.editarbaseequipo}> Equipo </button> */}
             {/* <Editarempleadomodal/> */}
@@ -317,8 +305,7 @@ class Engrane extends Component {
               className="btn btn-success btn-lg active"
               onClick={this.empezaragregarsignatario}
             >
-              {" "}
-              Agregar empleado{" "}
+              {" "}Agregar empleado{" "}
             </button>
           )}
           {this.state.hideAllButtons ? null : (
@@ -326,8 +313,7 @@ class Engrane extends Component {
               className="btn btn-secondary btn-lg active"
               onClick={this.empezareditarsignatario}
             >
-              {" "}
-              Editar empleado{" "}
+              {" "}Editar empleado{" "}
             </button>
           )}
 

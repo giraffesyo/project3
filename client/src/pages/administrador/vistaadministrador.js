@@ -3,6 +3,7 @@ import Section from "../../components/section"
 import Engrane from "../../components/footer/engrane"
 import { Link } from "react-router-dom"
 import "./administradorCSS.css"
+import "./style.css"
 
 class VistaAdministrador extends Component {
   render() {

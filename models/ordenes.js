@@ -8,12 +8,12 @@ const OrdenesSchema = new Schema({
   rama: { type: String },
   tipodeestudio: { type: String },
   metodos: { type: String },
-  signatario: { type: String },
+  signatario: { type: [String] },
   equipo: { type: String },
   start: { type: Date, default: Date.now },
   end: { type: Date, default: Date.now },
   comentarios: { type: String },
-  status: { type: String },
+  status: { type: [String] },
   preciosubtotal: { type: Number }, //Le puse precio total, para que en cada orden haya precio subtotal (el total es la suma de los subtotales)
   color: { type: String }
 })

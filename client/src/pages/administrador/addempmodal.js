@@ -2,52 +2,136 @@ import React from "react"
 import DayPickerInput from "react-day-picker/DayPickerInput"
 import "react-day-picker/lib/style.css"
 import API from "../../utils/API"
-//import { Link } from "react-router-dom"
+import APIuna from "../../utils/APIuna"
+import { FormInline, Input, Label } from "../../components/signatarios"
+import { withAlert } from "react-alert"
+import { Link } from "react-router-dom"
+import "./style.css"
 
 class Addorden extends React.PureComponent {
   state = {
+    tipoEstOptions: [],
+    signatOptions: [],
     title: "",
     clave: "",
     rama: "",
     tipodeestudio: "",
-    signatario: [],
-    equipo: [],
-    start: "",
-    end: "",
+    signatarios: [],
+    start: new Date(),
+    end: new Date(),
     preciosubtotal: "",
-    status: "",
-    comentarios: ""
+    status: [],
+    comentarios: "",
+    unavailableEmployees: []
   }
 
   componentDidMount = () => {
-    //const { id } = this.props.match.params
-    //this.setState({ clave: id })
-    const { id: proyecto } = this.props.match.params
+    const {
+      props: {
+        match: {
+          params: { id: proyecto }
+        }
+      },
+      loadMethods,
+      loadSignatarios
+    } = this
     this.setState({ proyecto })
+    loadMethods()
+    loadSignatarios()
   }
   handleChange = event => {
     const { name, value } = event.target
     this.setState({ [name]: value })
   }
-  handleFormSubmit = event => {
+  loadMethods = () => {
+    API.findMethods()
+      .then(res =>
+        this.setState({
+          tipoEstOptions: res.data,
+          clave: "",
+          nombretipodeestudio: ""
+        })
+      )
+      .catch(err => console.log(err))
+  }
+  loadSignatarios = () => {
+    APIuna.getSignatarios().then(res =>
+      this.setState({
+        signatOptions: res.data,
+        nombresignatario: "",
+        clave: ""
+      })
+    )
+  }
+  onSelectSignatario = e => {
+    const signatarioClicked = e.target.value
+    const checked = e.target.checked
+    const { signatarios } = this.state
+    let newSignatrios
+    if (checked) {
+      // add them to the list
+      newSignatrios = [...signatarios, signatarioClicked]
+    } else {
+      // remove them from the list
+      const thisIndex = signatarios.indexOf(signatarioClicked)
+      // if we didnt find it in the list there is something really wrong, and we shouldnt continue
+      if (thisIndex === -1) {
+        return console.error("did not find signatario when we should have")
+      }
+      newSignatrios = [
+        ...signatarios.slice(0, thisIndex),
+        ...signatarios.slice(thisIndex + 1)
+      ]
+    }
+    this.setState({ signatarios: newSignatrios })
+  }
+  checkAvailability = async () => {
+    const {
+      state: { start, end }
+    } = this
+
+    const unavailableEmployees = await API.checkAvailability(start, end).then(
+      r => r.data
+    )
+    this.setState({ unavailableEmployees })
+  }
+  handleFormSubmit = async event => {
     event.preventDefault()
-    API.saveOrden({
+    const {
+      props: { alert }
+    } = this
+
+    const res = await API.saveOrden({
       title: this.state.tipodeestudio,
       proyecto: this.state.proyecto,
       clave: this.state.clave,
       rama: this.state.rama,
       tipodeestudio: this.state.tipodeestudio,
-      signatario: this.state.signatario,
-      equipo: this.state.equipo,
-      start: this.state.day,
-      end: this.state.day,
+      signatario: this.state.signatarios,
+      start: this.state.start,
+      end: this.state.end,
       comentarios: this.state.comentarios,
       status: this.state.status,
       preciosubtotal: this.state.preciosubtotal
     }).catch(err => console.log(err))
+    if (res.status === 200) {
+      // we successfully added it
+      alert.success("Estudio añadido exitosamente")
+      console.log(res)
+      this.setState({ success: true })
+    } else {
+      console.log()
+      // show error information
+      alert.error("Problem adding")
+    }
   }
 
   render() {
+    const {
+      onSelectSignatario,
+      checkAvailability,
+      state: { unavailableEmployees }
+    } = this
     return (
       <div className="container">
         <div className="jumbotron jumbotron-fluid">
@@ -60,7 +144,7 @@ class Addorden extends React.PureComponent {
         </div>
         <form>
           <div className="form-row">
-            <div className="form-group col-md-4">
+            <div className="form-group col-md-6">
               <label>Id</label>
               <input
                 onChange={this.handleChange}
@@ -69,7 +153,7 @@ class Addorden extends React.PureComponent {
                 placeholder="200-FF-19-1"
               />
             </div>
-            <div className="form-group col-md-4">
+            <div className="form-group col-md-6">
               <label>Rama</label>
               <select
                 onChange={this.handleChange}
@@ -78,100 +162,54 @@ class Addorden extends React.PureComponent {
               >
                 <option>Fuentes Fijas</option>
                 <option>Aguas Residuales</option>
-                <option>Ambiente Laboral</option>
-              </select>
-            </div>
-            <div className="form-group col-md-4">
-              <label>Tipo de Estudio</label>
-              <select
-                onChange={this.handleChange}
-                className="form-control"
-                name="tipodeestudio"
-              >
-                <option>Estudio de Ruido en los centros de trabajo</option>
-                <option>
-                  Estudio de electricidad estatica en los centros de trabajo
-                </option>
-                <option>
-                  Estudio de las condiciones de ilumninacion en los centros de
-                  trabajo
-                </option>
               </select>
             </div>
           </div>
+          <div className="form-group col-md-12">
+            <label>Tipo de Estudio</label>
+            <select
+              onChange={this.handleChange}
+              className="form-control"
+              name="tipodeestudio"
+            >
+              {this.state.tipoEstOptions.map(option => (
+                <option key={option.clave} value={option.clave}>
+                  {option.nombretipodeestudio}
+                </option>
+              ))}
+            </select>
+          </div>
+
           <div className="form-row">
             <h5>Signatario</h5>
             <hr />
-            <div className="form-check form-check-inline">
-              <input
-                onChange={this.handleChange}
-                className="form-check-input"
-                type="checkbox"
-                name="signatario"
-                value="AYB"
-              />
-              <label className="form-check-label">Alfredo Yáñez Báez</label>
-            </div>
-            <div className="form-check form-check-inline">
-              <input
-                onChange={this.handleChange}
-                className="form-check-input"
-                type="checkbox"
-                name="signatario"
-                value="RJM"
-              />
-              <label className="form-check-label">Rocio Juárez Moran</label>
-            </div>
-            <div className="form-check form-check-inline">
-              <input
-                onChange={this.handleChange}
-                className="form-check-input"
-                type="checkbox"
-                name="signatario"
-                value="KP"
-                disabled
-              />
-              <label className="form-check-label">Kyouchi Pochi</label>
-            </div>
+            {this.state.signatOptions.map(option => {
+              const unavailable = unavailableEmployees.includes(option.clave)
+              return (
+                <FormInline key={option.clave}>
+                  <Input
+                    unavailable={unavailable}
+                    onChange={onSelectSignatario}
+                    value={option.clave}
+                  />
+                  <Label unavailable={unavailable}>
+                    {option.nombresignatario}
+                  </Label>
+                </FormInline>
+              )
+            })}
           </div>
-          <div className="form-row">
-            <h5>Equipo</h5>
-            <hr />
-            <div className="form-check form-check-inline">
-              <input
-                onChange={this.handleChange}
-                className="form-check-input"
-                type="checkbox"
-                name="equipo"
-                value="Eq1"
-              />
-              <label className="form-check-label">Equipo 1</label>
-            </div>
-            <div className="form-check form-check-inline">
-              <input
-                onChange={this.handleChange}
-                className="form-check-input"
-                type="checkbox"
-                name="equipo"
-                value="Eq2"
-              />
-              <label className="form-check-label">Equipo 2</label>
-            </div>
-            <div className="form-check form-check-inline">
-              <input
-                onChange={this.handleChange}
-                className="form-check-input"
-                type="checkbox"
-                name="equipo"
-                value="Eq3"
-                disabled
-              />
-              <label className="form-check-label">Equipo 3</label>
-            </div>
-          </div>
+
           <div>
             <p>Por favor escoge un día:</p>
-            <DayPickerInput onDayChange={day => console.log(day)} />
+            <DayPickerInput
+              onDayChange={day => {
+                const start = new Date(day)
+                const end = new Date(day)
+                end.setDate(start.getDate() + 1)
+                this.setState({ start, end }, checkAvailability)
+              }}
+            />
           </div>
           <div className="form-group">
             <label>Precio</label>
@@ -264,9 +302,12 @@ class Addorden extends React.PureComponent {
           >
             Crear Nuevo Estudio
           </button>
+          <Link to="/">
+            <button className="btn btn-danger">Salir</button>
+          </Link>
         </form>
       </div>
     )
   }
 }
-export default Addorden
+export default withAlert(Addorden)

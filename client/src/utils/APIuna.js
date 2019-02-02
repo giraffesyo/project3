@@ -2,12 +2,6 @@ import axios from "axios"
 
 //Este archivo es similar al ajax que tenías antes en un .js del front
 export default {
-  //Search for a google book
-  //   getGoogleBook: function(value){
-  //     //Aquí dices que el param es una q:title + el valor que pides en front. Así va la url con una q
-  //     return axios.get("/api/google", {params: {q: "title:" + value } });
-  //   },
-
   // Gets all metodos saved in database
   getMetodos: function() {
     return axios.get("/api/metodos")

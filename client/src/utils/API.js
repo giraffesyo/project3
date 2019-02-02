@@ -1,5 +1,4 @@
 import axios from "axios"
-// axios.defaults.baseURL= "http://localhost:3000";
 
 export default {
   saveOrden: estudioData => axios.post("/api/ordenes/add", estudioData),
@@ -8,6 +7,9 @@ export default {
     return axios.post("/api/proyectos/add", proyectData)
   },
   getProject: id => axios.get(`/api/proyectos/${id}`),
+  findMethods: function() {
+    return axios.get(`/api/tipoestudio`)
+  },
   //DULCINEA AGREGÓ:
   getProyect: function() {
     return axios.get("/api/proyectos/add")

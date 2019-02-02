@@ -72,6 +72,7 @@ class Addproyect extends Component {
     this.setState(this.getInitialState())
   }
 
+
   render() {
     const { from, to, success, clave } = this.state
     const modifiers = { start: from, end: to }

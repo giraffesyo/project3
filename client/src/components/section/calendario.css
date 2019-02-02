@@ -2,3 +2,49 @@
     text-align: center;
    
 }
+.tituloModal{
+    color: grey;
+    display: block;
+    text-align: center;
+    font-size: 26px;
+    font-weight: bold;
+}
+
+.modalsectionA{
+    margin: auto;
+}
+
+.labelInputModal{
+    color: grey;
+    font-size: 15px;
+}
+
+.labelInputModalB{
+    color: grey;
+    font-size: 16px;
+}
+
+.botonesFooter{
+    margin: auto;
+}
+
+.botonEnAncla{
+    color: grey;
+    text-decoration: none;
+    background-color: transparent;
+    font-weight: bold;
+    border: 1px;
+    border-style: solid;
+    padding: 14px;
+    border-radius: 53px;
+}
+.cerrarModal{
+    font-size: 14px;
+    background-color: grey;
+    border-color: grey;
+    border-radius: 60px;
+    margin-top: -5px;
+    margin-left: 4px;
+    border-style: unset;
+    color: white;
+}

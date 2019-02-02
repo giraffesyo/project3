@@ -31,19 +31,7 @@ class Section extends Compo {
       end:"",
       preciototal:null,
     },
-    ordenesDeEsteProyecto:[
-      // id:"",
-      // title:"",
-      // clave:"",
-      // rama:"",
-      // tipodeestudio:"",
-      // signatarios:[],
-      // comentarios:"",
-      // status:"",
-      // preciosubtotal:null,
-      // start:"",
-      // end:"",
-    ],
+    ordenesDeEsteProyecto:[],
     events: [
       // {
       //   start: new Date(),
@@ -157,6 +145,7 @@ class Section extends Compo {
     //console.log(event)
   }
 
+  
 
 
 
@@ -205,23 +194,26 @@ class Section extends Compo {
           shouldFocusAfterRender={true}
         >
           <div className="row">
-            <div className="col-md-8">
+            <div className="col-md-8 modalsectionA">
               <form>
                   <div className="form-group">
-                    <label>Proyecto</label>
+                    <label className="tituloModal">Proyecto</label>
                   </div>
                   <InformacionAMostrar 
-                    label="Clave"
+                    className="labelInputModal"
+                    label="CLAVE"
                     name="laClave"
                     defaultValue={this.state.proyectoSeleccionado.clave}
                   />
                   <InformacionAMostrar 
-                    label="Empresa"
+                    className="labelInputModal"
+                    label="EMPRESA"
                     name="laEmpresa"
                     defaultValue={this.state.proyectoSeleccionado.nombreempresa}
                   />
                   <InformacionAMostrar 
-                    label="Dirección"
+                    className="labelInputModal"
+                    label="DIRECCIÓN"
                     name="laDireccion"
                     defaultValue={this.state.proyectoSeleccionado.direccion}
                   />
@@ -231,9 +223,9 @@ class Section extends Compo {
           {this.state.ordenesDeEsteProyecto ? (
             <div className="row">
               {this.state.ordenesDeEsteProyecto.map(elementos => (
-                <div className="col-sm-4">
+                <div key={Math.floor(Math.random() * 10000 + 1)} className="col-sm-4">
                 <Card
-                  key={elementos._id}
+                  key={elementos.id}
                   clave={elementos.clave}
                   tipodeestudio={elementos.tipodeestudio}
                   src={"http://www.fundacionunam.org.mx/wp-content/uploads/2015/07/residuales_portada.jpg"}
@@ -250,14 +242,17 @@ class Section extends Compo {
               ))}
             </div>
           ) : (null) }
-          
-          
-          <button
-            className="btn btn-danger btn-lg active"
-            onClick={this.handleCloseModal}
-          >
-            Cerrar
-          </button>
+          <div className="row">
+            <div className="col-sm-4 botonesFooter">
+              <a href={`${window.location.origin}/addorder/${this.state.eventoSeleccionado}`} target="_blank" className="botonEnAncla">Agregar orden</a>
+              <button
+                className="cerrarModal"
+                onClick={this.handleCloseModal}
+              >
+                Cerrar
+              </button>
+            </div>
+          </div>
         </ReactModal>
 
       </div>

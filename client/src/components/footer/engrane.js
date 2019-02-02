@@ -29,6 +29,7 @@ class Engrane extends Component {
     encontradosSignatarios: [],
     filtrarSignatario: false,
     detalleUnSignatario: {
+      id:"",
       clave: "",
       nombre: "",
       contrasena: "",
@@ -84,6 +85,7 @@ class Engrane extends Component {
       .catch(err => console.log(err))
   }
 
+
   handleMetodoClick = valorLiClick => {
     this.setState({
       metodosSeleccionadosPorNombre: this.state.metodosSeleccionadosPorNombre.concat(
@@ -95,6 +97,22 @@ class Engrane extends Component {
       liClass: "limetodosselect"
     })
   }
+
+  borrarMetodoEnAgregarSignatario = metodoABorrar => {
+    const elindex = this.state.metodosSeleccionadosPorNombre.findIndex(
+      esindex => esindex === metodoABorrar.nombre
+    )
+    console.log("elindex", elindex)
+    const elindex2 = this.state.metodosSeleccionados.splice(elindex,1)
+    const elindex3 = this.state.metodosSeleccionadosPorNombre.splice(elindex, 1)
+    console.log(metodoABorrar)
+    this.setState({
+      metodosSeleccionados: this.state.metodosSeleccionados,
+      metodosSeleccionadosPorNombre:this.state.metodosSeleccionadosPorNombre
+    })
+  }
+
+
 
   handleOnChangeInputNuevoSignatario = event => {
     const { value, name } = event.target
@@ -165,17 +183,20 @@ class Engrane extends Component {
   mostrarDetalleSignatario = nombreEsteSignatario => {
     console.log("DETALLE DE", nombreEsteSignatario.id)
     API.getSignatarioSeleccionado(nombreEsteSignatario.id)
-      //.then(res => this.setState({ detalleUnSignatario:  res.data   }) )
       .then(res =>
         this.setState({
           mostrarCamposDeDetalleEditar: true,
           detalleUnSignatario: {
+            id:nombreEsteSignatario.id,
             nombre: res.data[0].nombresignatario,
             clave: res.data[0].clave,
             contrasena: res.data[0].contrasena,
             metodos: res.data[0].metodos,
             metodospornombre: res.data[0].metodospornombre
-          }
+          },
+          claveNuevoSignatario:res.data[0].clave,//Estos tres campos son porque esto ayuda a hacer un update, de estos campos jala la info para el update
+          nombreNuevoSignatario:res.data[0].nombresignatario,
+          contrasenaNuevoSignatario:res.data[0].contrasena
         })
       )
       .catch(err => console.log(err))
@@ -197,15 +218,20 @@ class Engrane extends Component {
   //     }
   // }
 
+  
+
+
   borrarMetodoDeUnSignatario = metodoABorrar => {
-    const elindex = this.state.detalleUnSignatario.metodos.findIndex(
+    const elindex = this.state.detalleUnSignatario.metodospornombre.findIndex(
       esindex => esindex === metodoABorrar.nombre
     )
+    console.log(metodoABorrar)
     console.log("elindex", elindex)
     const elindex2 = this.state.detalleUnSignatario.metodospornombre.splice(elindex,1)
     const elindex3 = this.state.detalleUnSignatario.metodos.splice(elindex, 1)
     this.setState({
       detalleUnSignatario: {
+        id: this.state.detalleUnSignatario.id,
         clave: this.state.detalleUnSignatario.clave,
         nombre: this.state.detalleUnSignatario.nombre,
         contrasena: this.state.detalleUnSignatario.contrasena,
@@ -219,9 +245,12 @@ class Engrane extends Component {
     })
   }
 
+ 
+
   handleMetodoClickenEditar = valorLiClick => {
     this.setState({
       detalleUnSignatario: {
+        id: this.state.detalleUnSignatario.id,
         clave: this.state.detalleUnSignatario.clave,
         nombre: this.state.detalleUnSignatario.nombre,
         contrasena: this.state.detalleUnSignatario.contrasena,
@@ -241,6 +270,7 @@ class Engrane extends Component {
     this.setState(
       {
         detalleUnSignatario: {
+          id: this.state.detalleUnSignatario.id,
           clave: this.state.detalleUnSignatario.clave,
           nombre: this.state.detalleUnSignatario.nombre,
           contrasena: this.state.detalleUnSignatario.contrasena,
@@ -255,15 +285,48 @@ class Engrane extends Component {
     )
   }
 
-  // API.borrarMetodoDeUnSignatario(metodoABorrar.nombre)
-  // .then(res => this.loadBooks())
-  // .catch(err=>console.log(err));
-
+ 
   // getSignatarioSeleccionado = () => {
   //     API.getSignatarioSeleccionado(this.state.nombreBuscarEditarSignatario)
   //     //.then(res => this.loadBooks())
   //     .catch(err => console.log(err));
   // }
+
+  handleOnChangeEditarInformacionSignatario = event => {
+    const {  value, name } = event.target
+    this.setState({ [name]:value})
+  }
+
+  actualizarInformacionSignatario = event =>{
+    event.preventDefault()
+    API.updateInformacionSignatario({
+      id:this.state.detalleUnSignatario.id,
+      clave: this.state.claveNuevoSignatario,
+      nombresignatario: this.state.nombreNuevoSignatario,
+      contrasena: this.state.contrasenaNuevoSignatario,
+      metodos: this.state.detalleUnSignatario.metodos,
+      metodospornombre: this.state.detalleUnSignatario.metodospornombre
+    }) 
+    .then(res =>
+      this.setState({
+        mostrarCamposDeDetalleEditar: false,
+        detalleUnSignatario: {
+          id:"",
+          nombre: "",
+          clave: "",
+          contrasena: "",
+          metodos:[],
+          metodospornombre: []
+        },
+        claveNuevoSignatario:"",
+        nombreNuevoSignatario:"",
+        contrasenaNuevoSignatario:""
+      })
+    )
+    .catch(err => console.log(err, "ERROR API.ACTUALIZARsIGNATARIOeXISTENTE"))
+  }
+
+ 
 
   render() {
     return (
@@ -320,47 +383,66 @@ class Engrane extends Component {
           {/*--------- Agregar signatarios */}
           {this.state.showFormularioAgregarSignatario ? (
             <form>
-              <div className="form-group">
-                <label>Agrega un nuevo empleado</label>
-                <Input
-                  label="Clave"
-                  name="claveNuevoSignatario"
-                  value={this.state.claveNuevoSignatario}
-                  onChange={this.handleOnChangeInputNuevoSignatario}
-                />
-                <Input
-                  label="Nombre"
-                  name="nombreNuevoSignatario"
-                  value={this.state.nombreNuevoSignatario}
-                  onChange={this.handleOnChangeInputNuevoSignatario}
-                />
-                <Input
-                  label="Contraseña"
-                  name="contrasenaNuevoSignatario"
-                  value={this.state.contrasenaNuevoSignatario}
-                  onChange={this.handleOnChangeInputNuevoSignatario}
-                />
-                <Listado>
-                  {this.state.metodosdisponibles.map(mapmetodosdisponibles => (
-                    <li
-                      className={`${this.state.liClass}` || "limetodos"}
-                      onClick={() =>
-                        this.handleMetodoClick(mapmetodosdisponibles)
-                      }
-                      name={mapmetodosdisponibles.nombremetodo}
-                      id={mapmetodosdisponibles._id}
-                      key={mapmetodosdisponibles._id}
-                    >
-                      {mapmetodosdisponibles.nombremetodo}
-                    </li>
-                  ))}
-                </Listado>
-                <BotonGuardar
-                  className="btn btn-success btn-lg active"
-                  onClick={this.botonGuardarEmpleadoNuevo}
-                >
-                  Guardar empleado nuevo
-                </BotonGuardar>
+              <div className="row">
+                <div className="row">
+                  <div class="col-md-8 modalsectionA">
+                
+                  <div className="form-group">
+                    <label>Agrega un nuevo empleado</label>
+                    <Input
+                      label="Clave"
+                      name="claveNuevoSignatario"
+                      value={this.state.claveNuevoSignatario}
+                      onChange={this.handleOnChangeInputNuevoSignatario}
+                    />
+                    <Input
+                      label="Nombre"
+                      name="nombreNuevoSignatario"
+                      value={this.state.nombreNuevoSignatario}
+                      onChange={this.handleOnChangeInputNuevoSignatario}
+                    />
+                    <Input
+                      label="Contraseña"
+                      name="contrasenaNuevoSignatario"
+                      value={this.state.contrasenaNuevoSignatario}
+                      onChange={this.handleOnChangeInputNuevoSignatario}
+                    />
+                </div>
+              </div>
+              <div className="row">
+                  <Listado>
+                    {this.state.metodosdisponibles.map(mapmetodosdisponibles => (
+                      <li
+                        //className={`${this.state.liClass}` || "limetodos"}
+                        onClick={
+                          ()=>this.handleMetodoClick(mapmetodosdisponibles)
+                        }
+                        name={mapmetodosdisponibles.nombremetodo}
+                        id={mapmetodosdisponibles._id}
+                        key={mapmetodosdisponibles._id}
+                      >
+                        {mapmetodosdisponibles.nombremetodo}
+                      </li>
+                    ))}
+                  </Listado>
+                  {this.state.metodosSeleccionadosPorNombre.map(
+                        (mapSusMetodos, index) => (
+                          <ListadoConBotonDelete
+                            key={Math.floor(Math.random() * 10000 + 1)}
+                            nombre={mapSusMetodos}
+                            BotonBorrarMetodo={this.borrarMetodoEnAgregarSignatario}
+                          />
+                        )
+                  )}
+              </div>
+                  <BotonGuardar
+                    className="btn btn-success btn-lg active"
+                    onClick={this.botonGuardarEmpleadoNuevo}
+                  >
+                    Guardar empleado nuevo
+                  </BotonGuardar>
+                </div>
+              
               </div>
             </form>
           ) : null}
@@ -403,18 +485,24 @@ class Engrane extends Component {
                   <div>
                     <InputEditable
                       label="Clave"
-                      name="claveSignatarioAEditar"
-                      defaultValue={this.state.detalleUnSignatario.clave}
+                      name="claveNuevoSignatario"
+                      value={this.props.value}
+                      onChange={this.handleOnChangeEditarInformacionSignatario}
+                      defaultValue={this.state.detalleUnSignatario.clave||""}
                     />
                     <InputEditable
                       label="Nombre"
-                      name="nombreSignatarioAEditar"
-                      defaultValue={this.state.detalleUnSignatario.nombre}
+                      name="nombreNuevoSignatario"
+                      value={this.props.value}
+                      onChange={this.handleOnChangeEditarInformacionSignatario}
+                      defaultValue={this.state.detalleUnSignatario.nombre||""}
                     />
                     <InputEditable
                       label="Contrasena"
-                      name="contrasenaSignatarioAEditar"
-                      defaultValue={this.state.detalleUnSignatario.contrasena}
+                      name="contrasenaNuevoSignatario"
+                      value={this.props.value}
+                      onChange={this.handleOnChangeEditarInformacionSignatario}
+                      defaultValue={this.state.detalleUnSignatario.contrasena||""}
                     />
                     {this.state.detalleUnSignatario.metodospornombre.map(
                       (mapSusMetodos, index) => (
@@ -429,7 +517,7 @@ class Engrane extends Component {
                       {this.state.metodosdisponibles.map(
                         mapmetodosdisponibles => (
                           <li
-                            className={`${this.state.liClass}` || "limetodos"}
+                            //className={`${this.state.liClass}` || "limetodos"}
                             onClick={() =>
                               this.handleMetodoClickenEditar(
                                 mapmetodosdisponibles
@@ -452,7 +540,11 @@ class Engrane extends Component {
                                 onChange={this.handleOnChangeAgregarMetodoEnEditarSignatario}
                             />
                             <button onClick={this.agregarMetodoEscritoAUnSignatario}>Agregar Método</button> */}
-                    <BotonGuardar>Actualizar empleado</BotonGuardar>
+                    <BotonGuardar
+                      onClick={this.actualizarInformacionSignatario}
+                    >
+                      Actualizar empleado
+                    </BotonGuardar>
                   </div>
                 ) : null}
               </div>

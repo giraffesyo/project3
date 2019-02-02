@@ -2,31 +2,32 @@ import React, { Component } from "react"
 import Section from "../../components/section"
 import Engrane from "../../components/footer/engrane"
 import { Link } from "react-router-dom"
+import "./administradorCSS.css"
 
 class VistaAdministrador extends Component {
   render() {
     return (
+      
       <div className="container">
+        <nav className="navbar navbar-light">
+          <h1>AIMEX</h1>
+          <a href={`${window.location.origin}/reportes`} target="_blank" className="botonAReportes">Reportes</a>
+        </nav>
+        <br />
+        <br />
         <Section />
-        <Engrane />
         <br />
         <div className="row">
           <div className="col">
-            <button className="btn btn-primary btn-lg active">
-              Consultar Estudio
-            </button>
-          </div>
-          <div className="col">
-            <button className="btn btn-danger btn-lg active">
-              Cancelar Estudio
-            </button>
-          </div>
-          <div className="col">
             <Link to="/addproyect">
-              <button className="btn btn-success btn-lg active">
+              <button className="saveButton5">
                 Agregar Proyecto
               </button>
             </Link>
+          </div>
+          <br />
+          <div className="col">
+            <Engrane />
           </div>
         </div>
         <br />

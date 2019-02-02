@@ -1,0 +1,25 @@
+.saveButton5{
+    color: blue;
+    border-color: blue;
+    background-color: white;
+    border-style: solid;
+    border-radius: 90px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    outline-style: none;
+    box-shadow: none;
+    float: left;
+}
+.botonAReportes{
+    color:white;
+    font-weight: bold;
+    float: right;
+}
+.navbar.navbar-light{
+    background-color: #033E12;
+}
+
+h1{
+    color:white;
+}

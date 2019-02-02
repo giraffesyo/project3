@@ -7,7 +7,7 @@ export const Listado = (props) => {
            
        
         <div className="form-group">
-            <label >Métodos</label>
+            
             {/* <select className="form-control" id="exampleFormControlSelect1"> */}
                 {/* <option val={props.metodo} >1</option> */}
                 <ul>
@@ -37,8 +37,8 @@ export const ListadoConBotonDelete= (props) => {
     return (
       
       <div>    
-            <li className="list-group-item">{props.nombre}</li>
-            <button onClick={()=>props.BotonBorrarMetodo({...props})}> x </button>
+            <li className="list-group-item disponibles" >{props.nombre}</li>
+            <button className="borrarMetodoAgregado" onClick={()=>props.BotonBorrarMetodo({...props})}> x </button>
       </div>
     );
 }

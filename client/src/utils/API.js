@@ -1,5 +1,5 @@
 import axios from "axios"
-//axios.defaults.baseURL= "http://localhost:5000";
+axios.defaults.baseURL= "http://localhost:5000";
 
 export default {
   saveOrden: estudioData => axios.post("/api/ordenes/add", estudioData),

@@ -4,6 +4,7 @@ import "react-day-picker/lib/style.css"
 import API from "../../utils/API"
 import APIuna from "../../utils/APIuna"
 import { FormInline, Input, Label } from "../../components/signatarios"
+import { withAlert } from "react-alert"
 
 class Addorden extends React.PureComponent {
   state = {
@@ -92,22 +93,35 @@ class Addorden extends React.PureComponent {
     )
     this.setState({ unavailableEmployees })
   }
-  handleFormSubmit = event => {
+  handleFormSubmit = async event => {
     event.preventDefault()
+    const {
+      props: { alert }
+    } = this
 
-    // API.saveOrden({
-    //   title: this.state.tipodeestudio,
-    //   proyecto: this.state.proyecto,
-    //   clave: this.state.clave,
-    //   rama: this.state.rama,
-    //   tipodeestudio: this.state.tipodeestudio,
-    //   signatario: this.state.signatarios,
-    //   start: this.state.start,
-    //   end: this.state.end,
-    //   comentarios: this.state.comentarios,
-    //   status: this.state.status,
-    //   preciosubtotal: this.state.preciosubtotal
-    // }).catch(err => console.log(err))
+    const res = await API.saveOrden({
+      title: this.state.tipodeestudio,
+      proyecto: this.state.proyecto,
+      clave: this.state.clave,
+      rama: this.state.rama,
+      tipodeestudio: this.state.tipodeestudio,
+      signatario: this.state.signatarios,
+      start: this.state.start,
+      end: this.state.end,
+      comentarios: this.state.comentarios,
+      status: this.state.status,
+      preciosubtotal: this.state.preciosubtotal
+    }).catch(err => console.log(err))
+    if (res.status === 200) {
+      // we successfully added it
+      alert.success("Estudio añadido exitosamente")
+      console.log(res)
+      this.setState({ success: true })
+    } else {
+      console.log()
+      // show error information
+      alert.error("Problem adding")
+    }
   }
 
   render() {
@@ -291,4 +305,4 @@ class Addorden extends React.PureComponent {
     )
   }
 }
-export default Addorden
+export default withAlert(Addorden)

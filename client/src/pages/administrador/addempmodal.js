@@ -5,6 +5,8 @@ import API from "../../utils/API"
 import APIuna from "../../utils/APIuna"
 import { FormInline, Input, Label } from "../../components/signatarios"
 import { withAlert } from "react-alert"
+import { Link } from "react-router-dom"
+import "./style.css"
 
 class Addorden extends React.PureComponent {
   state = {
@@ -300,6 +302,9 @@ class Addorden extends React.PureComponent {
           >
             Crear Nuevo Estudio
           </button>
+          <Link to="/">
+            <button className="btn btn-danger">Salir</button>
+          </Link>
         </form>
       </div>
     )

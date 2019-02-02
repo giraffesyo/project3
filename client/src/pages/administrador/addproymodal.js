@@ -5,6 +5,8 @@ import DayPicker, { DateUtils } from "react-day-picker"
 import "react-day-picker/lib/style.css"
 import API from "../../utils/API"
 import { withAlert } from "react-alert"
+import { Link } from "react-router-dom"
+import "./style.css"
 
 class Addproyect extends Component {
   static defaultProps = {
@@ -187,6 +189,9 @@ class Addproyect extends Component {
           >
             Crear Nuevo Proyecto
           </button>
+          <Link to="/">
+            <button className="btn btn-danger">Salir</button>
+          </Link>
         </form>
       </div>
     )

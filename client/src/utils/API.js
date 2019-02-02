@@ -1,19 +1,19 @@
 import axios from "axios"
-// axios.defaults.baseURL= "http://localhost:3000";
 
 export default {
   saveOrden: estudioData => axios.post("/api/ordenes/add", estudioData),
-  saveProyect: function(proyectData) {
-    console.log(proyectData)
-    return axios.post("/api/proyectos/add", proyectData)
-  },
+  saveProyect: proyectData => axios.post("/api/proyectos/add", proyectData),
+  checkAvailability: (start, end) =>
+    axios.get("/api/ordenes/checkavailability", {
+      params: {
+        start,
+        end
+      }
+    }),
   getProject: id => axios.get(`/api/proyectos/${id}`),
+  findMethods: () => axios.get(`/api/tipoestudio`),
   //DULCINEA AGREGÓ:
-  getProyect: function() {
-    return axios.get("/api/proyectos/add")
-  },
+  getProyect: () => axios.get("/api/proyectos/add"),
   //DULCINEA AGREGÓ:
-  getOrden: function() {
-    return axios.get("/api/ordenes/add")
-  }
+  getOrden: () => axios.get("/api/ordenes/add")
 }

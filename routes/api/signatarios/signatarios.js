@@ -4,12 +4,12 @@ const nuevoSignatarioController = require("../../../controllers/nuevosignatarioc
 // Matches with "/api/signatarios"
 router.route("/")
   //.post(nuevoSignatarioController.create) SI FUNCIONA
-  .get(nuevoSignatarioController.findAllSignatarios);
+  .get(nuevoSignatarioController.findAllSignatarios)
 
 // Matches with "/api/signtarios/:id"
 router.route("/:id")
-  .get(nuevoSignatarioController.findOneSignatario);
-
+  .get(nuevoSignatarioController.findOneSignatario)
+ // .put(nuevoSignatarioController.updateOneSignatario)
 
 
 

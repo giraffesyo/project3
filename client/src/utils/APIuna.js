@@ -1,18 +1,18 @@
 import axios from "axios"
-
+//axios.defaults.baseURL= "http://localhost:5000";
 //Este archivo es similar al ajax que tenías antes en un .js del front
 export default {
   // Gets all metodos saved in database
   getMetodos: function() {
     return axios.get("/api/metodos")
   },
-  // Gets all signatarios de el metodo seleccionado
+  // Post signatarios en el método seleccionado
   postMetodosConSignatarios: function(idsignatario) {
     return axios.post("/api/metodos/signatario/" + idsignatario.metodos, {
       data: idsignatario
     })
   },
-  //AQUI TINES QUE HACER OTRA DE GET CON LO ANTERIOR NO?
+  // Get ONE método seleccionado
   getMetodosConSignatarios: function(idsignatario) {
     return axios.get("/api/metodos/signatario/" + idsignatario.metodos)
   },
@@ -31,7 +31,14 @@ export default {
     return axios.get("/api/signatarios/" + id)
   },
   // Deletes un método de un signatario
-  deleteBook: function(metodo) {
-    return axios.delete("/api/signatarios/" + metodo)
+  // deleteBook: function(metodo) {
+  //   return axios.delete("/api/signatarios/" + metodo)
+  // },
+
+  // updateInformacionSignatario:function(informacion) {
+  //   return axios.put("/api/signatarios/" + informacion.id,{data:informacion} )
+  // }
+  updateInformacionSignatario:function(informacion) {
+    return axios.put("/api/metodos/signatario/"  + informacion.metodos,{data:informacion} )
   }
 }

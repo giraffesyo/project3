@@ -1,18 +1,24 @@
 const db = require("../models")
 
 module.exports = {
+
   findAll: function(req, res) {
     //Métodos
     db.Metodos.find(req.query)
+
       .then(dbModel => res.json(dbModel))
       .catch(err => res.status(422).json(err))
   },
 
-  createSignatarioEnMetodo: function(req, res) {
-    console.log("ESTE REQ PARAMS", req.params.id),
-      console.log("elbody", req.body)
-    db.Signatarios.create(req.body.data)
-      .then(function(elSignatario) {
+  //Crea nuevo signatario y en métodos lo popula en sus métodos correspondientes
+  createSignatarioEnMetodo:function(req, res) { 
+    console.log("ESTE REQ PARAMS",req.params.id),
+    console.log("elbody",req.body)
+    db.Signatarios
+      .create(req.body.data)
+      .then(function(elSignatario) { 
+                                                    
+
         return db.Metodos.updateMany(
           { _id: { $in: req.params.id.split(",") } },
           { $push: { signatariopopulado: elSignatario._id } },
@@ -23,12 +29,45 @@ module.exports = {
       .catch(err => res.status(422).json(err))
   },
 
-  findSignatarioEnMetodo: function(req, res) {
-    db.Metodos.findOne({ _id: req.params.id })
+  //POPULATE
+  findSignatarioEnMetodo:function(req, res) { 
+    db.Metodos.findOne({ _id: req.params.id})
+
       .populate("signatario")
       .then(dbModel => res.json(dbModel))
       .catch(err => res.status(422).json(err))
   },
+
+  updateOneSignatario:function(req, res) { 
+    console.log("ESTE REQ PARAMS DE UPDATEONESIGNATARIO",req.params.id),
+    console.log("elbody",req.body)
+    console.log("elsig",req.body.data.id)
+    db.Signatarios
+      .findOneAndUpdate({ _id: req.body.data.id }, req.body.data)
+      .then(function(elSignatario) {           
+        return db.Metodos.updateMany(
+          {_id: { $in: req.params.id.split(",")}}, 
+          { $push:{signatariopopulado: elSignatario._id} }, { new: true });
+      })
+      .then(dbModel => res.json(dbModel))
+      .catch(err => res.status(422).json(err));
+  },
+
+  // updateOneSignatario:function(req, res) { 
+  //   console.log("ESTE REQ PARAMS DE UPDATEONESIGNATARIO",req.params.id),
+  //   console.log("elbody",req.body)
+  //   db.Signatarios
+  //     .findOneAndUpdate({ _id: req.params.id }, req.body.data)
+  //     .then(function(elSignatario) {           
+  //       return db.Metodos.updateMany(
+  //         {_id: { $in: req.body.data[0].metodos.split(",")}}, 
+  //         { $push:{signatariopopulado: elSignatario._id} }, { new: true });
+  //     })
+  //     .then(dbModel => res.json(dbModel))
+  //     .catch(err => res.status(422).json(err));
+  // },
+
+
 
   //ESTA ES LA QUE USABAS ANTES QUE SIIIIIII FUNCIONA
   // create: function(req, res) {

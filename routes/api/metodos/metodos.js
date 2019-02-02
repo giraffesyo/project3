@@ -9,8 +9,8 @@ router.route("/")
 //Matches with "api/metodos/signatario/:id"
 router.route("/signatario/:id")
   .post(nuevoSignatarioController.createSignatarioEnMetodo)
-  .get(nuevoSignatarioController.findSignatarioEnMetodo);
-
+  .get(nuevoSignatarioController.findSignatarioEnMetodo)
+  .put(nuevoSignatarioController.updateOneSignatario)
 
 // router.route("/:id")
 //   .delete(booksController.remove);

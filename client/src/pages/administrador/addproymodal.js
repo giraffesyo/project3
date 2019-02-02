@@ -47,6 +47,7 @@ class Addproyect extends Component {
       console.log(res)
       this.setState({ success: true })
     } else {
+      console.log()
       // show error information
       alert.error("Problem adding")
     }

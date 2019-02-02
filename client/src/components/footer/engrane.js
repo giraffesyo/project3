@@ -332,7 +332,7 @@ class Engrane extends Component {
     return (
       <div>
         <button
-          className="menu-editar btn btn-secondary btn-lg active"
+          className="saveButton"
           onClick={this.showMenu}
         >
           {" "}Editar{" "}
@@ -344,7 +344,7 @@ class Engrane extends Component {
             ref={element => {this.dropdownMenu = element}}
           >
             <button
-              className="boton-baseeditar btn btn-primary btn-lg active"
+              className="saveButton"
               onClick={this.handleOpenModal}
             >
               {" "} Empleado{" "}
@@ -363,57 +363,70 @@ class Engrane extends Component {
           ariaHideApp={true}
           shouldFocusAfterRender={true}
         >
+        <div className="inicioModalcenter">
           {this.state.hideAllButtons ? null : (
-            <button
-              className="btn btn-success btn-lg active"
-              onClick={this.empezaragregarsignatario}
-            >
-              {" "}Agregar empleado{" "}
-            </button>
+            <div className="col-md-5">
+              <button
+                className="saveButton4"
+                onClick={this.empezaragregarsignatario}
+              >
+                {" "}Agregar empleado{" "}
+              </button>
+            </div>
           )}
           {this.state.hideAllButtons ? null : (
-            <button
-              className="btn btn-secondary btn-lg active"
-              onClick={this.empezareditarsignatario}
-            >
-              {" "}Editar empleado{" "}
-            </button>
+            <div className="col-md-5">
+              <button
+                className="saveButton4"
+                onClick={this.empezareditarsignatario}
+              >
+                {" "}Editar empleado{" "}
+              </button>
+            </div>
           )}
+        </div>
 
           {/*--------- Agregar signatarios */}
           {this.state.showFormularioAgregarSignatario ? (
             <form>
               <div className="row">
-                <div className="row">
-                  <div class="col-md-8 modalsectionA">
+                
+                  <div class="col-md-10 modalsectionA">
                 
                   <div className="form-group">
-                    <label>Agrega un nuevo empleado</label>
+                    <label class="tituloModal">Agrega un nuevo empleado</label>
                     <Input
+                      className="labelInputModal"
                       label="Clave"
                       name="claveNuevoSignatario"
                       value={this.state.claveNuevoSignatario}
                       onChange={this.handleOnChangeInputNuevoSignatario}
                     />
                     <Input
+                      className="labelInputModal"
                       label="Nombre"
                       name="nombreNuevoSignatario"
                       value={this.state.nombreNuevoSignatario}
                       onChange={this.handleOnChangeInputNuevoSignatario}
                     />
                     <Input
+                      className="labelInputModal"
                       label="Contraseña"
                       name="contrasenaNuevoSignatario"
                       value={this.state.contrasenaNuevoSignatario}
                       onChange={this.handleOnChangeInputNuevoSignatario}
                     />
+                
                 </div>
-              </div>
+              
               <div className="row">
+                <div class="col-md-6 modalsectionC">
+                  <label className="labelInputModal">Métodos disponibles</label>
                   <Listado>
                     {this.state.metodosdisponibles.map(mapmetodosdisponibles => (
                       <li
                         //className={`${this.state.liClass}` || "limetodos"}
+                        className="listaMetodosDisponibles"
                         onClick={
                           ()=>this.handleMetodoClick(mapmetodosdisponibles)
                         }
@@ -425,6 +438,10 @@ class Engrane extends Component {
                       </li>
                     ))}
                   </Listado>
+                </div>
+                <div class="col-md-6 modalsectionC">
+                  <label className="labelInputModal">Métodos seleccionados</label>
+
                   {this.state.metodosSeleccionadosPorNombre.map(
                         (mapSusMetodos, index) => (
                           <ListadoConBotonDelete
@@ -434,15 +451,19 @@ class Engrane extends Component {
                           />
                         )
                   )}
+                </div>
               </div>
+              <div className="row">
+                  <div className="col-sm-5 botonesFooter">
                   <BotonGuardar
-                    className="btn btn-success btn-lg active"
+                    className="saveButton"
                     onClick={this.botonGuardarEmpleadoNuevo}
                   >
                     Guardar empleado nuevo
                   </BotonGuardar>
+                  </div>
                 </div>
-              
+                </div>
               </div>
             </form>
           ) : null}
@@ -451,9 +472,13 @@ class Engrane extends Component {
           {this.state.showFormularioEditarSignatario ? (
             <form>
               <div className="form-group">
-                <label>Editar empleados</label>
+              
+                <label className="tituloModal">Editar empleados</label>
+                <div className="row">
+                <div className="col-md-8 modalsectionD">
                 <Input
                   label="Buscar empleado por nombre"
+                  className="labelInputModal2"
                   name="nombreBuscarEditarSignatario"
                   value={this.state.nombreBuscarEditarSignatario}
                   onChange={this.handleOnChangeBuscarEditarSignatario}
@@ -475,11 +500,13 @@ class Engrane extends Component {
                       )}
                     </div>
                   ) : this.state.nombreBuscarEditarSignatario ? (
-                    <p>...Buscando</p>
+                    <p className="labelInputModal">...Buscando</p>
                   ) : (
-                    <p>No hay infomación para mostrar</p>
+                    <p className="labelInputModal">No hay infomación para mostrar</p>
                   )}
                 </ul>
+                </div>
+                </div>
 
                 {this.state.mostrarCamposDeDetalleEditar ? (
                   <div>
@@ -504,34 +531,44 @@ class Engrane extends Component {
                       onChange={this.handleOnChangeEditarInformacionSignatario}
                       defaultValue={this.state.detalleUnSignatario.contrasena||""}
                     />
-                    {this.state.detalleUnSignatario.metodospornombre.map(
-                      (mapSusMetodos, index) => (
-                        <ListadoConBotonDelete
-                          key={Math.floor(Math.random() * 10000 + 1)}
-                          nombre={mapSusMetodos}
-                          BotonBorrarMetodo={this.borrarMetodoDeUnSignatario}
-                        />
-                      )
-                    )}
-                    <Listado>
-                      {this.state.metodosdisponibles.map(
-                        mapmetodosdisponibles => (
-                          <li
-                            //className={`${this.state.liClass}` || "limetodos"}
-                            onClick={() =>
-                              this.handleMetodoClickenEditar(
-                                mapmetodosdisponibles
-                              )
-                            }
-                            name={mapmetodosdisponibles.nombremetodo}
-                            id={mapmetodosdisponibles._id}
-                            key={mapmetodosdisponibles._id}
-                          >
-                            {mapmetodosdisponibles.nombremetodo}
-                          </li>
+                    <div className="row">
+                    <div className="col-md-6 modalsectionC">
+                      <Listado>
+                        {this.state.metodosdisponibles.map(
+                          mapmetodosdisponibles => (
+                            <li
+                              //className={`${this.state.liClass}` || "limetodos"}
+                              onClick={() =>
+                                this.handleMetodoClickenEditar(
+                                  mapmetodosdisponibles
+                                )
+                              }
+                              name={mapmetodosdisponibles.nombremetodo}
+                              id={mapmetodosdisponibles._id}
+                              key={mapmetodosdisponibles._id}
+                              className="listaMetodosDisponibles"
+                            >
+                              {mapmetodosdisponibles.nombremetodo}
+                            </li>
+                          )
+                        )}
+                      </Listado>
+                    </div>
+                    <div className="col-md-6 modalsectionC">
+
+                      {this.state.detalleUnSignatario.metodospornombre.map(
+                        (mapSusMetodos, index) => (
+                          <ListadoConBotonDelete
+                           
+                            key={Math.floor(Math.random() * 10000 + 1)}
+                            nombre={mapSusMetodos}
+                            BotonBorrarMetodo={this.borrarMetodoDeUnSignatario}
+                          />
                         )
                       )}
-                    </Listado>
+
+                    </div>
+                    </div>
                     {/* AGREGAR MÉTODO INEXISTENTE, SI FUNCIONA 
                             <Input
                                 label="Agrega un nuevo método"
@@ -540,11 +577,16 @@ class Engrane extends Component {
                                 onChange={this.handleOnChangeAgregarMetodoEnEditarSignatario}
                             />
                             <button onClick={this.agregarMetodoEscritoAUnSignatario}>Agregar Método</button> */}
-                    <BotonGuardar
-                      onClick={this.actualizarInformacionSignatario}
-                    >
-                      Actualizar empleado
-                    </BotonGuardar>
+                    <div className="row">
+                      <div className="col-sm-5 botonesFooter">
+                        <BotonGuardar
+                          className="saveButton"
+                          onClick={this.actualizarInformacionSignatario}
+                        >
+                          Actualizar empleado
+                        </BotonGuardar>
+                      </div>
+                    </div>
                   </div>
                 ) : null}
               </div>
@@ -552,7 +594,7 @@ class Engrane extends Component {
           ) : null}
 
           <button
-            className="btn btn-danger btn-lg active"
+            className="cerrarModal"
             onClick={this.handleCloseModal}
           >
             Cerrar

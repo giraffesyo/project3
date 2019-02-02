@@ -14,18 +14,27 @@ class Addorden extends React.PureComponent {
     rama: "",
     tipodeestudio: "",
     signatarios: [],
-    start: "",
-    end: "",
+    start: new Date(),
+    end: new Date(),
     preciosubtotal: "",
     status: [],
-    comentarios: ""
+    comentarios: "",
+    unavailableEmployees: []
   }
 
   componentDidMount = () => {
-    const { id: proyecto } = this.props.match.params
+    const {
+      props: {
+        match: {
+          params: { id: proyecto }
+        }
+      },
+      loadMethods,
+      loadSignatarios
+    } = this
     this.setState({ proyecto })
-    this.loadMethods()
-    this.loadSignatarios()
+    loadMethods()
+    loadSignatarios()
   }
   handleChange = event => {
     const { name, value } = event.target
@@ -73,25 +82,40 @@ class Addorden extends React.PureComponent {
     }
     this.setState({ signatarios: newSignatrios })
   }
+  checkAvailability = async () => {
+    const {
+      state: { start, end }
+    } = this
+
+    const unavailableEmployees = await API.checkAvailability(start, end).then(
+      r => r.data
+    )
+    this.setState({ unavailableEmployees })
+  }
   handleFormSubmit = event => {
     event.preventDefault()
-    API.saveOrden({
-      title: this.state.tipodeestudio,
-      proyecto: this.state.proyecto,
-      clave: this.state.clave,
-      rama: this.state.rama,
-      tipodeestudio: this.state.tipodeestudio,
-      signatario: this.state.signatarios,
-      start: this.state.day,
-      end: this.state.day,
-      comentarios: this.state.comentarios,
-      status: this.state.status,
-      preciosubtotal: this.state.preciosubtotal
-    }).catch(err => console.log(err))
+
+    // API.saveOrden({
+    //   title: this.state.tipodeestudio,
+    //   proyecto: this.state.proyecto,
+    //   clave: this.state.clave,
+    //   rama: this.state.rama,
+    //   tipodeestudio: this.state.tipodeestudio,
+    //   signatario: this.state.signatarios,
+    //   start: this.state.start,
+    //   end: this.state.end,
+    //   comentarios: this.state.comentarios,
+    //   status: this.state.status,
+    //   preciosubtotal: this.state.preciosubtotal
+    // }).catch(err => console.log(err))
   }
 
   render() {
-    const { onSelectSignatario } = this
+    const {
+      onSelectSignatario,
+      checkAvailability,
+      state: { unavailableEmployees }
+    } = this
     return (
       <div className="container">
         <div className="jumbotron jumbotron-fluid">
@@ -143,18 +167,32 @@ class Addorden extends React.PureComponent {
           <div className="form-row">
             <h5>Signatario</h5>
             <hr />
-            {this.state.signatOptions.map(option => (
-              <FormInline key={option.clave}>
-                <Input onChange={onSelectSignatario} value={option.clave} />
-                <Label>{option.nombresignatario}</Label>
-              </FormInline>
-            ))}
+            {this.state.signatOptions.map(option => {
+              const unavailable = unavailableEmployees.includes(option.clave)
+              return (
+                <FormInline key={option.clave}>
+                  <Input
+                    unavailable={unavailable}
+                    onChange={onSelectSignatario}
+                    value={option.clave}
+                  />
+                  <Label unavailable={unavailable}>
+                    {option.nombresignatario}
+                  </Label>
+                </FormInline>
+              )
+            })}
           </div>
 
           <div>
             <p>Por favor escoge un día:</p>
             <DayPickerInput
-              onDayChange={day => this.setState({ start: day, end: day })}
+              onDayChange={day => {
+                const start = new Date(day)
+                const end = new Date(day)
+                end.setDate(start.getDate() + 1)
+                this.setState({ start, end }, checkAvailability)
+              }}
             />
           </div>
           <div className="form-group">

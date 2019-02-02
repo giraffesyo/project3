@@ -47,6 +47,7 @@ class Addproyect extends Component {
       console.log(res)
       this.setState({ success: true })
     } else {
+      console.log()
       // show error information
       alert.error("Problem adding")
     }
@@ -71,7 +72,6 @@ class Addproyect extends Component {
   handleResetClick() {
     this.setState(this.getInitialState())
   }
-
 
   render() {
     const { from, to, success, clave } = this.state

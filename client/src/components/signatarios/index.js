@@ -9,9 +9,10 @@ export function FormInline({ children }) {
   )
 }
 
-export function Input({ onChange, value }) {
+export function Input({ onChange, value, unavailable }) {
   return (
     <input
+      style={unavailableStyle(unavailable)}
       onChange={onChange}
       className="form-check-input"
       type="checkbox"
@@ -20,6 +21,14 @@ export function Input({ onChange, value }) {
     />
   )
 }
-export function Label({ children }) {
-  return <label className="form-check-label">{children}</label>
+export function Label({ children, unavailable }) {
+  return (
+    <label style={unavailableStyle(unavailable)} className="form-check-label">
+      {children}
+    </label>
+  )
 }
+
+const unavailableStyle = unavailable => ({
+  color: unavailable ? "red" : "black"
+})

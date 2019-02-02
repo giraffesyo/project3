@@ -4,7 +4,9 @@ const ordenesController = require("../../controllers/ordenesController")
 const proyectosController = require("../../controllers/proyectosController")
 const tipoEstudioController = require("../../controllers/tipodestudioController")
 router.route("/ordenes/add").post(ordenesController.create)
-
+router
+  .route("/ordenes/checkavailability")
+  .get(ordenesController.findAvailability)
 router.route("/proyectos/add").post(proyectosController.create)
 router.route("/tipoestudio/").get(tipoEstudioController.findAll)
 //DULCINEA AGREGÓ:

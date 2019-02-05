@@ -5,6 +5,8 @@ import addEmpModal from "./pages/administrador/addempmodal"
 import addProyectModal from "./pages/administrador/addproymodal"
 import { Provider as AlertProvider } from "react-alert"
 import AlertTemplate from "react-alert-template-basic"
+//import StockInfo from "../src/components/app/components/profile/StockInfo"
+import Profile from "../src/components/app/containers/Profile/Profile"
 
 const options = {
   position: "top center",
@@ -19,6 +21,7 @@ export default () => (
         <Route exact path="/" component={VistaAdministrador} />
         <Route exact path="/addorder/:id" component={addEmpModal} />
         <Route exact path="/addproyect" component={addProyectModal} />
+        <Route exact path="/reportes" component={Profile} />
       </Switch>
     </Router>
   </AlertProvider>

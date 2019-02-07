@@ -1,11 +1,9 @@
 const db = require("../models")
 
 module.exports = {
-
+  //Métodos
   findAll: function(req, res) {
-    //Métodos
     db.Metodos.find(req.query)
-
       .then(dbModel => res.json(dbModel))
       .catch(err => res.status(422).json(err))
   },
@@ -17,8 +15,6 @@ module.exports = {
     db.Signatarios
       .create(req.body.data)
       .then(function(elSignatario) { 
-                                                    
-
         return db.Metodos.updateMany(
           { _id: { $in: req.params.id.split(",") } },
           { $push: { signatariopopulado: elSignatario._id } },
@@ -28,11 +24,9 @@ module.exports = {
       .then(dbModel => res.json(dbModel))
       .catch(err => res.status(422).json(err))
   },
-
   //POPULATE
   findSignatarioEnMetodo:function(req, res) { 
     db.Metodos.findOne({ _id: req.params.id})
-
       .populate("signatario")
       .then(dbModel => res.json(dbModel))
       .catch(err => res.status(422).json(err))
@@ -53,21 +47,6 @@ module.exports = {
       .catch(err => res.status(422).json(err));
   },
 
-  // updateOneSignatario:function(req, res) { 
-  //   console.log("ESTE REQ PARAMS DE UPDATEONESIGNATARIO",req.params.id),
-  //   console.log("elbody",req.body)
-  //   db.Signatarios
-  //     .findOneAndUpdate({ _id: req.params.id }, req.body.data)
-  //     .then(function(elSignatario) {           
-  //       return db.Metodos.updateMany(
-  //         {_id: { $in: req.body.data[0].metodos.split(",")}}, 
-  //         { $push:{signatariopopulado: elSignatario._id} }, { new: true });
-  //     })
-  //     .then(dbModel => res.json(dbModel))
-  //     .catch(err => res.status(422).json(err));
-  // },
-
-
 
   //ESTA ES LA QUE USABAS ANTES QUE SIIIIIII FUNCIONA
   // create: function(req, res) {
@@ -81,6 +60,7 @@ module.exports = {
       .then(dbModel => res.json(dbModel))
       .catch(err => res.status(422).json(err))
   },
+  
   findOneSignatario: function(req, res) {
     db.Signatarios.find({ _id: req.params.id })
       .then(dbModel => res.json(dbModel))

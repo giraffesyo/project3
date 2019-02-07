@@ -1,10 +1,10 @@
 import React, { Component as Compo } from "react"
+import { Link } from "react-router-dom"
 import "./calendario.css"
 import API from "../../utils/API"
 //import APIuna from "../../utils/APIuna";
 import { InformacionAMostrar } from "./Input"
 import { Card } from "./card"
-
 
 import Calendar from "react-big-calendar"
 import moment from "moment"
@@ -183,7 +183,6 @@ class Section extends Compo {
           //  formats={formats}//Formato de fecha e idioma
           //   culture="es"
           views={["month"]}
-         
         />
         <ReactModal
           isOpen={this.state.showModal}
@@ -224,20 +223,39 @@ class Section extends Compo {
             <div className="row">
               {this.state.ordenesDeEsteProyecto.map(elementos => (
                 <div key={Math.floor(Math.random() * 10000 + 1)} className="col-sm-4">
-                <Card
-                  key={elementos.id}
-                  clave={elementos.clave}
-                  tipodeestudio={elementos.tipodeestudio}
-                  src={"http://www.fundacionunam.org.mx/wp-content/uploads/2015/07/residuales_portada.jpg"}
-                  rama={elementos.rama}
-                  signatario={elementos.signatario}
-                  equipo={elementos.equipo}
-                  comentarios={elementos.comentarios}
-                  status={elementos.status}
-                  preciosubtotal={elementos.preciosubtotal}
-                  start={(elementos.start).substring(0, 10)}
-                  end={elementos.end.substring(0, 10)}
-                />
+                  <Card
+                    key={elementos.id}
+                    clave={elementos.clave}
+                    tipodeestudio={elementos.tipodeestudio}
+                    src={"http://www.fundacionunam.org.mx/wp-content/uploads/2015/07/residuales_portada.jpg"}
+                    rama={elementos.rama}
+                    signatario={elementos.signatario}
+                    equipo={elementos.equipo}
+                    comentarios={elementos.comentarios}
+                    status={elementos.status}
+                    preciosubtotal={elementos.preciosubtotal}
+                    start={(elementos.start).substring(0, 10)}
+                    end={elementos.end.substring(0, 10)}
+                  />
+                  <div>
+                    <Link to = {{
+                      pathname: `/updateorden/${this.state.eventoSeleccionado}`,
+                      state: { 
+                        clave: elementos.clave,
+                        rama: elementos.rama,
+                        tipodeestudio: elementos.tipodeestudio,
+                        signatarios:elementos.signatario,
+                        start: elementos.start,
+                        end: elementos.end,
+                        preciosubtotal:elementos.preciosubtotal,
+                        status: elementos.status,
+                        comentarios:elementos.comentarios
+                        }
+                      }}
+                    > 
+                      Editar  
+                    </Link>     
+                  </div>
                 </div>
               ))}
             </div>

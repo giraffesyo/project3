@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Route, Switch } from "react-router-dom"
 import VistaAdministrador from "./pages/administrador"
 import addEmpModal from "./pages/administrador/addempmodal"
 import addProyectModal from "./pages/administrador/addproymodal"
+import updateOrden from "./pages/administrador/updateOrden"
 import { Provider as AlertProvider } from "react-alert"
 import AlertTemplate from "react-alert-template-basic"
 
@@ -19,6 +20,7 @@ export default () => (
         <Route exact path="/" component={VistaAdministrador} />
         <Route exact path="/addorder/:id" component={addEmpModal} />
         <Route exact path="/addproyect" component={addProyectModal} />
+        <Route exact path="/updateorden/:id" component={updateOrden} />
       </Switch>
     </Router>
   </AlertProvider>

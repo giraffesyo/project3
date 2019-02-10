@@ -9,6 +9,7 @@
     "react-alert": "^4.0.4",
     "react-alert-template-basic": "^1.0.0",
     "react-big-calendar": "^0.20.2",
+    "react-burger-menu": "^2.6.4",
     "react-day-picker": "^7.2.4",
     "react-dom": "^16.7.0",
     "react-helmet": "^5.2.0",

@@ -5,6 +5,7 @@ import API from "../../utils/API"
 import { InformacionAMostrar } from "./Input"
 import { Card } from "./card"
 import {ListadoAgrupado} from "./listado"
+import {Nav} from "./nav"
 
 
 import Calendar from "react-big-calendar"
@@ -15,6 +16,7 @@ import "react-big-calendar/lib/addons/dragAndDrop/styles.css"
 import "moment/locale/es"
 import withDragAndDrop from "react-big-calendar/lib/addons/dragAndDrop"
 import ReactModal from "react-modal"
+import { scaleDown as Menu } from 'react-burger-menu'
 ReactModal.setAppElement("#root")
 
 const DnDCalendar = withDragAndDrop(Calendar)
@@ -37,6 +39,7 @@ class Section extends Compo {
     ordenesDeEsteProyecto:[],
     elementoABuscarEnSearch: "",
     encontradoEnSearch:[],
+    menuOpen: false,
     events: [
       // {
       //   id: 1,
@@ -147,13 +150,6 @@ class Section extends Compo {
           this.setState({ ordenesDeEsteProyecto: eventosDeEsteProyecto })
         },
     )
-    // let ordenFiltrada = this.state.events.filter( encontrado =>
-    //   encontrado._id == proyectoFiltrado.ordenes
-    // )
-    
-    // let ordenFiltrada = this.state.events.filter((encontrado) => {
-    //   return proyectoFiltrado.ordenes.filter(ey=> encontrado.includes(ey)) 
-    //  })
   }
 
 
@@ -193,158 +189,201 @@ class Section extends Compo {
   //     })
   // }
 
-  
+  //----------------------->MENU LATERAL 
+  showSettings (event) {
+    event.preventDefault();
 
+  }
 
+  handleStateChange (state) {
+    this.setState({menuOpen: state.isOpen})  
+  }
+
+  toggleMenu () {
+    this.setState({menuOpen: !this.state.menuOpen})
+  }
 
 
   render() {
+  
    
-    
     return (
-      <div className="contenedorcalendario">
-        <DnDCalendar
-          popup //Para extender cuando hay varios eventos en un mismo día
-          selectable //Hace posible que se pueda seleccionar
-          // onSelectSlot={this.handleSelect} // ÉSTAS TRES SON PROPIEDADES A IMPLEMENTARSE A FUTURO
-          // onEventDrop={this.onEventDrop}
-          // onEventResize={this.onEventResize}
-          onSelectEvent={event=>this.handleOpenModal(event)} //Al hacer click sobre el evento, despliega info del evento
-          localizer={localizer}
-          defaultDate={new Date()}
-          defaultView="month"
-          events={this.state.events}
-          style={{ height: "70vh" }} //Sin esta línea no se muestra el calendario
-          eventPropGetter={event => ({style: { backgroundColor: event.color } })} //Añadir props a los events, ej. cambiar color
-          views={["month"]}
-          messages={{next:">",previous:"<",today:"Actual",showMore: total => `+ ${total} estudios más`}}
-          culture={"es"}
-          //formats={formats}
-
-
-
+  <div>
+    <Nav>
+      <ul>
+        <li className="navegacion" onClick={() => this.toggleMenu()}>
+          <span style={{color: '#03A9F4', fontSize: '23px'}}>
+            <i className="fas fa-search"></i>
+          </span>
+          <a className="texto-navegacion">
+            BUSCAR
+          </a>
+        </li>
+      </ul>
+    </Nav>
+    
+    <div id="outer-container">
+      <Menu 
+        isOpen={this.state.menuOpen}
+        onStateChange={(state) => this.handleStateChange(state)}  
+        pageWrapId={ "page-wrap" }  
+        outerContainerId={ "outer-container" } 
+        customBurgerIcon={<img alt="" src="" />} 
+      >
+        {/* ----------->BUSCADOR */}
+        <div className="menu-itema">
+        <InformacionAMostrar 
+          className="labelInputModal"
+          label="BUSCADOR"
+          name="elementoABuscarEnSearch"
+          onChange={this.handleOnChangeBuscador}
         />
-        <ReactModal
-          isOpen={this.state.showModal}
-          contentLabel="onRequestClose Example"
-          onRequestClose={this.handleCloseModal}
-          shouldCloseOnOverlayClick={false}
-          ariaHideApp={true}
-          shouldFocusAfterRender={true}
-        >
-          <div className="row">
-            <div className="col-md-8 modalsectionA">
-              <form>
-                  <div className="form-group">
-                    <label className="tituloModal">Proyecto</label>
-                  </div>
-                  <InformacionAMostrar 
-                    className="labelInputModal"
-                    label="CLAVE"
-                    name="laClave"
-                    defaultValue={this.state.proyectoSeleccionado.clave}
+        <ul className="list-group list-group-flush">
+          {this.state.encontradoEnSearch.length ? (
+            <div>
+              {this.state.encontradoEnSearch.map(
+                encontrado => (
+                  <ListadoAgrupado
+                    key={encontrado._id}
+                    id={encontrado._id}
+                    nombre={encontrado.nombreempresa}
+                    mostrarDetalle={
+                      this.mostrarDetalleDelSeleccionadoEnSearch
+                    }
                   />
-                  <InformacionAMostrar 
-                    className="labelInputModal"
-                    label="EMPRESA"
-                    name="laEmpresa"
-                    defaultValue={this.state.proyectoSeleccionado.nombreempresa}
-                  />
-                  <InformacionAMostrar 
-                    className="labelInputModal"
-                    label="DIRECCIÓN"
-                    name="laDireccion"
-                    defaultValue={this.state.proyectoSeleccionado.direccion}
-                  />
-              </form>
+                )
+              )}
             </div>
-          </div>
-          {this.state.ordenesDeEsteProyecto ? (
-            <div className="row">
-              {this.state.ordenesDeEsteProyecto.map(elementos => (
-                <div key={Math.floor(Math.random() * 10000 + 1)} className="col-sm-4">
-                  <Card
-                    key={elementos.id}
-                    clave={elementos.clave}
-                    tipodeestudio={elementos.tipodeestudio}
-                    src={"http://www.fundacionunam.org.mx/wp-content/uploads/2015/07/residuales_portada.jpg"}
-                    rama={elementos.rama}
-                    signatario={elementos.signatario}
-                    equipo={elementos.equipo}
-                    comentarios={elementos.comentarios}
-                    status={elementos.status}
-                    preciosubtotal={elementos.preciosubtotal}
-                    start={(elementos.start).substring(0, 10)}
-                    end={elementos.end.substring(0, 10)}
-                  />
-                  <div>
-                    <Link to = {{
-                      pathname: `/updateorden/${this.state.eventoSeleccionado}`,
-                      state: { 
-                        clave: elementos.clave,
-                        rama: elementos.rama,
-                        tipodeestudio: elementos.tipodeestudio,
-                        signatarios:elementos.signatario,
-                        start: elementos.start,
-                        end: elementos.end,
-                        preciosubtotal:elementos.preciosubtotal,
-                        status: elementos.status,
-                        comentarios:elementos.comentarios
-                        }
-                      }}
-                    > 
-                      Editar  
-                    </Link>     
-                  </div>
+          ) : this.state.elementoABuscarEnSearch ? (
+            <p className="labelInputModal">...Buscando</p>
+          ) : (
+            <p className="labelInputModal">
+              No hay infomación para mostrar
+            </p>
+          )}
+        </ul>
+        </div>
+     
+      </Menu>
+
+        <div id="page-wrap"> {/* div forzoso para menu lateral */}
+          <div className="contenedorcalendario">
+            
+            {/*------------------>CALENDARIO */}
+            <DnDCalendar
+              popup //Para extender cuando hay varios eventos en un mismo día
+              selectable //Hace posible que se pueda seleccionar
+              // onSelectSlot={this.handleSelect} // ÉSTAS TRES SON PROPIEDADES A IMPLEMENTARSE A FUTURO
+              // onEventDrop={this.onEventDrop}
+              // onEventResize={this.onEventResize}
+              onSelectEvent={event=>this.handleOpenModal(event)} //Al hacer click sobre el evento, despliega info del evento
+              localizer={localizer}
+              defaultDate={new Date()}
+              defaultView="month"
+              events={this.state.events}
+              style={{ height: "70vh" }} 
+              eventPropGetter={event => ({style: { backgroundColor: event.color } })} //Añadir props a los events, ej. cambiar color
+              views={["month"]}
+              messages={{next:">",previous:"<",today:"Actual",showMore: total => `+ ${total} estudios más`}}
+              culture={"es"}
+            />
+
+            {/*------------------>MODALES */}
+            <ReactModal
+              isOpen={this.state.showModal}
+              contentLabel="onRequestClose Example"
+              onRequestClose={this.handleCloseModal}
+              shouldCloseOnOverlayClick={false}
+              ariaHideApp={true}
+              shouldFocusAfterRender={true}
+            >
+              <div className="row">
+                <div className="col-md-8 modalsectionA">
+                  <form>
+                      <div className="form-group">
+                        <label className="tituloModal">Proyecto</label>
+                      </div>
+                      <InformacionAMostrar 
+                        className="labelInputModal"
+                        label="CLAVE"
+                        name="laClave"
+                        defaultValue={this.state.proyectoSeleccionado.clave}
+                      />
+                      <InformacionAMostrar 
+                        className="labelInputModal"
+                        label="EMPRESA"
+                        name="laEmpresa"
+                        defaultValue={this.state.proyectoSeleccionado.nombreempresa}
+                      />
+                      <InformacionAMostrar 
+                        className="labelInputModal"
+                        label="DIRECCIÓN"
+                        name="laDireccion"
+                        defaultValue={this.state.proyectoSeleccionado.direccion}
+                      />
+                  </form>
                 </div>
-              ))}
-            </div>
-          ) : (null) }
-          <div className="row">
-            <div className="col-sm-4 botonesFooter">
-              <a href={`${window.location.origin}/addorder/${this.state.eventoSeleccionado}`} target="_blank" className="botonEnAncla">Agregar orden</a>
-              <button
-                className="cerrarModal"
-                onClick={this.handleCloseModal}
-              >
-                Cerrar
-              </button>
-            </div>
-          </div>
-        </ReactModal>
-        
-          <InformacionAMostrar 
-            className="labelInputModal"
-            label="BUSCADOR"
-            name="elementoABuscarEnSearch"
-            onChange={this.handleOnChangeBuscador}
-          />
-          <ul className="list-group list-group-flush">
-            {this.state.encontradoEnSearch.length ? (
-              <div>
-                {this.state.encontradoEnSearch.map(
-                  encontrado => (
-                    <ListadoAgrupado
-                      key={encontrado._id}
-                      id={encontrado._id}
-                      nombre={encontrado.nombreempresa}
-                      mostrarDetalle={
-                        this.mostrarDetalleDelSeleccionadoEnSearch
-                      }
-                    />
-                  )
-                )}
               </div>
-            ) : this.state.elementoABuscarEnSearch ? (
-              <p className="labelInputModal">...Buscando</p>
-            ) : (
-              <p className="labelInputModal">
-                No hay infomación para mostrar
-              </p>
-            )}
-          </ul>
-        
-      </div>
+              {this.state.ordenesDeEsteProyecto ? (
+                <div className="row">
+                  {this.state.ordenesDeEsteProyecto.map(elementos => (
+                    <div key={Math.floor(Math.random() * 10000 + 1)} className="col-sm-4">
+                      <Card
+                        key={elementos.id}
+                        clave={elementos.clave}
+                        tipodeestudio={elementos.tipodeestudio}
+                        src={"http://www.fundacionunam.org.mx/wp-content/uploads/2015/07/residuales_portada.jpg"}
+                        rama={elementos.rama}
+                        signatario={elementos.signatario}
+                        equipo={elementos.equipo}
+                        comentarios={elementos.comentarios}
+                        status={elementos.status}
+                        preciosubtotal={elementos.preciosubtotal}
+                        start={(elementos.start).substring(0, 10)}
+                        end={elementos.end.substring(0, 10)}
+                      />
+                      <div>
+                        <Link to = {{
+                          pathname: `/updateorden/${this.state.eventoSeleccionado}`,
+                          state: { 
+                            clave: elementos.clave,
+                            rama: elementos.rama,
+                            tipodeestudio: elementos.tipodeestudio,
+                            signatarios:elementos.signatario,
+                            start: elementos.start,
+                            end: elementos.end,
+                            preciosubtotal:elementos.preciosubtotal,
+                            status: elementos.status,
+                            comentarios:elementos.comentarios
+                            }
+                          }}
+                        > 
+                          Editar  
+                        </Link>     
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              ) : (null) }
+              <div className="row">
+                <div className="col-sm-4 botonesFooter">
+                  <a href={`${window.location.origin}/addorder/${this.state.eventoSeleccionado}`} target="_blank" rel="noopener noreferrer" className="botonEnAncla">Agregar orden</a>
+                  <button
+                    className="cerrarModal"
+                    onClick={this.handleCloseModal}
+                  >
+                    Cerrar
+                  </button>
+                </div>
+              </div>
+            </ReactModal>
+        </div>{/* ID page wrap */}
+
+            
+            
+          </div> {/*classname contenedorcalendario*/}
+    </div>{/* id outer container */}
+  </div>
     )
   }
 }

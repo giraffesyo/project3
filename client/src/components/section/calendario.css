@@ -1,6 +1,6 @@
 .contenedorcalendario{    
     text-align: center;
-   
+    padding: 4%;
 }
 .tituloModal{
     color: grey;
@@ -47,4 +47,97 @@
     margin-left: 4px;
     border-style: unset;
     color: white;
+}
+
+.bm-overlay{
+    background:none !important
+}
+
+.bm-menu-wrap{
+    height: 100% !important;
+    background-color:#efefef;
+    padding: 4%;
+}
+
+.bm-burger-button button{
+    visibility: hidden !important; 
+}
+
+.navbar{
+    padding: 0px;
+    margin: 0px;
+    background-image: linear-gradient(to bottom right, #12128e, #1eb7e8);
+}
+
+
+ul{
+    margin: 9px;
+    padding: -44px;
+    margin-bottom: -26px;
+    display: inline-block;
+    text-align: left;
+    width: 80%;
+}
+
+li{
+    list-style: none;
+    cursor: pointer;
+}
+
+.navegacion{
+    font-family: 'Secular One', sans-serif;
+    color:white;
+    font-size: 12px;
+    
+}
+.texto-navegacion{
+    font-size: 15px;
+    padding-bottom: -3px;
+    display: inline-block;
+    padding-bottom: -39px;
+    vertical-align: top;
+    padding: 0px;
+    margin: 5px;
+    cursor: pointer;
+    border-bottom: 2px solid #03a9f4;
+}
+
+.rbc-toolbar-label{
+    flex-grow: 1;
+    padding: 0 10px;
+    text-align: center;
+    font-size: 23px;
+    font-weight: bolder;
+    color: #1da5de;
+    text-transform: uppercase;
+}
+
+.rbc-month-row, .rbc-month-view, .rbc-header,.rbc-toolbar button {
+    border:none !important;
+}
+
+.rbc-month-row + .rbc-month-row {
+    border:none !important;
+}
+
+.rbc-today {
+    background-color: #ffffff!important;
+}
+
+.rbc-date-cell a{
+    color: grey!important;;
+
+
+}
+.rbc-toolbar button{
+    outline-style: none !important;
+    box-shadow: none !important;
+}
+.rbc-toolbar {
+    display: grid!important;
+}
+
+.rbc-btn-group button + button {
+    margin-left: -9px!important;;
+    font-weight: bold!important;;
 }

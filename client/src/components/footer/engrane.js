@@ -104,7 +104,7 @@ class Engrane extends Component {
     console.log("elindex", elindex)
     const elindex2 = this.state.metodosSeleccionados.splice(elindex, 1)
     const elindex3 = this.state.metodosSeleccionadosPorNombre.splice(elindex, 1)
-    console.log(metodoABorrar)
+    console.log(metodoABorrar,elindex2,elindex3)
     this.setState({
       metodosSeleccionados: this.state.metodosSeleccionados,
       metodosSeleccionadosPorNombre: this.state.metodosSeleccionadosPorNombre
@@ -221,11 +221,9 @@ class Engrane extends Component {
     )
     console.log(metodoABorrar)
     console.log("elindex", elindex)
-    const elindex2 = this.state.detalleUnSignatario.metodospornombre.splice(
-      elindex,
-      1
-    )
+    const elindex2 = this.state.detalleUnSignatario.metodospornombre.splice(elindex,1)
     const elindex3 = this.state.detalleUnSignatario.metodos.splice(elindex, 1)
+    console.log("bases", elindex2,elindex3)
     this.setState({
       detalleUnSignatario: {
         id: this.state.detalleUnSignatario.id,

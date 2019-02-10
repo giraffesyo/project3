@@ -16,6 +16,7 @@ class VistaAdministrador extends Component {
         </nav>
         <br />
         <br />
+       
         <Section />
         <br />
         <div className="row">

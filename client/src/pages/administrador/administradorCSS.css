@@ -1,25 +1,31 @@
 .saveButton5 {
-  color: blue;
-  border-color: blue;
-  background-color: white;
-  border-style: solid;
-  border-radius: 90px;
-  font-size: 16px;
-  font-weight: bold;
-  cursor: pointer;
-  outline-style: none;
-  box-shadow: none;
-  float: left;
+    color: white;
+    background-color: white;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    outline-style: none;
+    box-shadow: none;
+    float: right;
+    height: 56px;
+    border: none;
+    background-color: #1da5de;
+    padding-right: 42px;
+    padding-left: 32px;
+    font-family: 'Secular One', sans-serif;
 }
 .botonAReportes {
   color: white;
   font-weight: bold;
   float: right;
 }
-.navbar.navbar-light {
-  background-color: rgb(39, 48, 126);
-}
 
 h1 {
   color: white;
+}
+
+body{
+  background-color:#efefef;
+ 
+  font-family: 'Roboto', sans-serif;
 }

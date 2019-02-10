@@ -13,7 +13,10 @@ export default {
       }
     }),
   getProject: id => axios.get(`/api/proyectos/${id}`),
-  findMethods: () => axios.get(`/api/tipoestudio`),
+
+  findMethods: function(data) {
+    return axios.get(`/api/tipoestudio/` + data.nombrerama)
+  },
   //DULCINEA AGREGÓ:
   getProyect: () => axios.get("/api/proyectos/add"),
   //DULCINEA AGREGÓ:

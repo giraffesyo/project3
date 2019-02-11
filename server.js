@@ -8,6 +8,14 @@ const PRODUCTION = process.env.NODE_ENV === 'production'
 if (!PRODUCTION) {
   require('dotenv').config()
 }
+
+//log out the current configuration
+console.log(`Our node env is: ${process.env.NODE_ENV}`)
+console.log(
+  `Found the mongo connection string to be: ${process.env.MONGODB_URI}`
+)
+console.log(`Running on port: ${process.env.PORT}`)
+
 //Resuelve problema de debatirse entre el puerto 3000 para front y 3001 para apiroutes
 var allowCrossDomain = function(req, res, next) {
   res.header('Access-Control-Allow-Origin', '*')
